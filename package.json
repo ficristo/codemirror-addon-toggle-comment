@@ -1,0 +1,56 @@
+{
+  "name": "codemirror-addon-toggle-comment",
+  "version": "0.1.0",
+  "description": "CodeMirror addon: another way to indent your code",
+  "main": "./dist/toggle-comment.js",
+  "mainSimple": "./dist/toggle-comment-simple.js",
+  "min": "./dist/toggle-comment.min.js",
+  "minSimple": "./dist/toggle-comment-simple.min.js",
+  "module": "./dist/toggle-comment.mjs",
+  "dependencies": {
+    "codemirror": "^5.39.2",
+    "lodash": "^4.17.10"
+  },
+  "devDependencies": {
+    "@types/codemirror": "0.0.59",
+    "@types/jasmine": "^2.8.8",
+    "@types/lodash": "^4.14.116",
+    "babel-core": "^6.26.3",
+    "babel-plugin-lodash": "^3.3.4",
+    "eslint": "^5.4.0",
+    "eslint-plugin-typescript": "^0.12.0",
+    "jasmine-core": "^3.2.1",
+    "karma": "^3.0.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^1.1.2",
+    "karma-typescript": "^3.0.13",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.64.1",
+    "rollup-plugin-babel": "^3.0.7",
+    "rollup-plugin-commonjs": "^9.1.5",
+    "rollup-plugin-json": "^3.0.0",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-terser": "^1.0.1",
+    "rollup-plugin-typescript2": "^0.16.1",
+    "typescript": "^3.0.1",
+    "typescript-eslint-parser": "^18.0.0"
+  },
+  "scripts": {
+    "test": "karma start",
+    "lint": "npm run eslint",
+    "eslint": "eslint --ignore-path .gitignore **/*.{ts,js}",
+    "tsc": "tsc",
+    "prebuild": "rimraf dist",
+    "build": "rollup -c rollup.config.ts"
+  },
+  "keywords": [
+    "codemirror",
+    "toggle",
+    "line",
+    "block",
+    "comment"
+  ],
+  "author": "ficristo",
+  "license": "MIT"
+}

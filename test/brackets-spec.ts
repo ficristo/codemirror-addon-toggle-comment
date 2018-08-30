@@ -1109,14 +1109,14 @@ describe("EditorCommandHandlers", function () {
     describe("Line comment in languages with mutiple line comment prefixes", function () {
         beforeAll(function () {
             // Define a special version of JavaScript for testing purposes
-            (<any>CodeMirror).extendMode("javascript", {
-                "lineComment": ["//", "////", "#"]
+            CodeMirror.extendMode("javascript", {
+                "lineComment": <any>["//", "////", "#"]
             });
         });
 
         afterAll(function () {
             // Restore the JavaScript mode
-            (<any>CodeMirror).extendMode("javascript", {
+            CodeMirror.extendMode("javascript", {
                 "lineComment": "//"
             });
         });
@@ -2416,7 +2416,7 @@ describe("EditorCommandHandlers", function () {
 
     describe("Comment/uncomment on languages with equal prefix and suffix and a line prefix being prefix of a block prefix/suffix", function () {
         // Extend CoffeeScript language for testing purposes
-        (<any>CodeMirror).extendMode("coffeescript", {
+        CodeMirror.extendMode("coffeescript", {
             "blockCommentStart": "###",
             "blockCommentEnd": "###",
             "lineComment": "#"

@@ -32,17 +32,17 @@ export namespace Document {
         // and Marijn would rather not expose it publicly.
         var change = { text: textLines, from: start, to: end };
 
-        if ((<any>CodeMirror).cmpPos(pos, start) < 0) {
+        if (CodeMirror.cmpPos(pos, start) < 0) {
             return pos;
         }
-        if ((<any>CodeMirror).cmpPos(pos, end) <= 0) {
-            return (<any>CodeMirror).changeEnd(change);
+        if (CodeMirror.cmpPos(pos, end) <= 0) {
+            return CodeMirror.changeEnd(change);
         }
 
         var line = pos.line + change.text.length - (change.to.line - change.from.line) - 1,
             ch = pos.ch;
         if (pos.line === change.to.line) {
-            ch += (<any>CodeMirror).changeEnd(change).ch - change.to.ch;
+            ch += CodeMirror.changeEnd(change).ch - change.to.ch;
         }
         return {line: line, ch: ch};
     }
@@ -68,7 +68,7 @@ export namespace Document {
             } else if (!edit2) {
                 return 1;
             } else {
-                return (<any>CodeMirror).cmpPos(edit2.start, edit1.start);
+                return CodeMirror.cmpPos(edit2.start, edit1.start);
             }
         });
 
@@ -89,7 +89,7 @@ export namespace Document {
                         // The edits are in reverse order, so we want to make sure this edit ends
                         // before any of the previous ones start.
                         oneOrEach(prevEditGroup, function (prevEdit) {
-                            if ((<any>CodeMirror).cmpPos(edit.end, prevEdit.start) > 0) {
+                            if (CodeMirror.cmpPos(edit.end, prevEdit.start) > 0) {
                                 throw new Error("doMultipleEdits(): Overlapping edits specified");
                             }
                         });
@@ -131,7 +131,7 @@ export namespace Document {
         });
         result = _.flatten(result);
         result = result.sort(function (sel1, sel2) {
-            return (<any>CodeMirror).cmpPos(sel1.start, sel2.start);
+            return CodeMirror.cmpPos(sel1.start, sel2.start);
         });
         _.each(result, function (item) {
             delete item.isBeforeEdit;

@@ -12,7 +12,7 @@
     "lodash": "^4.17.10"
   },
   "devDependencies": {
-    "@types/codemirror": "0.0.59",
+    "@types/codemirror": "0.0.60",
     "@types/jasmine": "^2.8.8",
     "@types/lodash": "^4.14.116",
     "babel-core": "^6.26.3",

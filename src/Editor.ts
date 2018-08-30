@@ -94,7 +94,7 @@ export class Editor {
     }
 
     private _copyPos(pos) {
-        return new (<any>CodeMirror).Pos(pos.line, pos.ch);
+        return new CodeMirror.Pos(pos.line, pos.ch);
     }
 
     posWithinRange(pos, start, end, endInclusive) {

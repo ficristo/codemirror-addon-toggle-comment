@@ -212,7 +212,7 @@ export module TokenUtils {
             name;
 
         if (modeData.innerMode) {
-            modeData = (<any>CodeMirror).innerMode(modeData, getTokenAt(cm, pos, precise).state).mode;
+            modeData = CodeMirror.innerMode(modeData, getTokenAt(cm, pos, precise).state).mode;
         }
 
         name = modeData.name === "xml" ? modeData.configuration : modeData.name;

@@ -43,9 +43,9 @@ export interface CommentOptions {
     getMode?: (mode, pos: CodeMirror.Position) => CommentDelimiters;
 }
 
-function getMode<T>(cm: CodeMirror.Doc, pos: CodeMirror.Position): CodeMirror.Mode<T> {
+function getMode<T>(cm: CodeMirror.Doc & CodeMirror.Editor, pos: CodeMirror.Position): CodeMirror.Mode<T> {
     var mode = cm.getMode();
-    return mode.useInnerComments === false || !mode.innerMode ? mode : (<any>cm).getModeAt(pos);
+    return mode.useInnerComments === false || !mode.innerMode ? mode : cm.getModeAt(pos);
 }
 
 
@@ -235,7 +235,7 @@ function _getLineCommentPrefixEdit(editor: Editor, prefixes: Array<string>, bloc
 
         // Make sure tracked selections include the prefix that was added at start of range
         _.each(trackedSels, function (trackedSel) {
-            if (trackedSel.start.ch === 0 && (<any>CodeMirror).cmpPos(trackedSel.start, trackedSel.end) !== 0) {
+            if (trackedSel.start.ch === 0 && CodeMirror.cmpPos(trackedSel.start, trackedSel.end) !== 0) {
                 trackedSel.start = {line: trackedSel.start.line, ch: 0};
                 trackedSel.end = {line: trackedSel.end.line, ch: (trackedSel.end.line === endLine ? trackedSel.end.ch + prefixes[0].length : 0)};
             } else {
@@ -454,7 +454,7 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
             // Make sure we didn't search so far backward or forward that we actually found a block comment
             // that's entirely before or after the selection.
             suffixEnd = suffixPos && { line: suffixPos.line, ch: suffixPos.ch + suffix.length };
-            if ((suffixEnd && (<any>CodeMirror).cmpPos(sel.start, suffixEnd) > 0) || (prefixPos && (<any>CodeMirror).cmpPos(sel.end, prefixPos) < 0)) {
+            if ((suffixEnd && CodeMirror.cmpPos(sel.start, suffixEnd) > 0) || (prefixPos && CodeMirror.cmpPos(sel.end, prefixPos) < 0)) {
                 canComment = true;
             }
 
@@ -528,7 +528,7 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
                 function updatePosForEdit(pos) {
                     // First adjust for the suffix insertion. Don't adjust
                     // positions that are exactly at the suffix insertion point.
-                    if ((<any>CodeMirror).cmpPos(pos, sel.end) > 0) {
+                    if (CodeMirror.cmpPos(pos, sel.end) > 0) {
                         if (completeLineSel) {
                             pos.line++;
                         } else if (pos.line === sel.end.line) {
@@ -538,7 +538,7 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
                     // Now adjust for the prefix insertion. In this case, we do
                     // want to adjust positions that are exactly at the insertion
                     // point.
-                    if ((<any>CodeMirror).cmpPos(pos, sel.start) >= 0) {
+                    if (CodeMirror.cmpPos(pos, sel.start) >= 0) {
                         if (completeLineSel) {
                             // Just move the line down.
                             pos.line++;

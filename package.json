@@ -38,6 +38,8 @@
   },
   "scripts": {
     "test": "karma start",
+    "test:ci": "karma start --single-run",
+    "posttest:ci": "npm run lint",
     "lint": "npm run eslint",
     "eslint": "eslint --ignore-path .gitignore **/*.{ts,js}",
     "tsc": "tsc",

@@ -54,5 +54,8 @@
     "comment"
   ],
   "author": "ficristo",
-  "license": "MIT"
+  "license": "MIT",
+  "files": [
+    "/dist"
+  ]
 }

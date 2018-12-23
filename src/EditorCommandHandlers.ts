@@ -43,6 +43,8 @@ export interface CommentOptions {
     getMode?: (mode, pos: CodeMirror.Position) => CommentDelimiters;
 }
 
+const nonWS = /[^\s\u00a0]/;
+
 function getMode<T>(cm: CodeMirror.Doc & CodeMirror.Editor, pos: CodeMirror.Position): CodeMirror.Mode<T> {
     var mode = cm.getMode();
     return mode.useInnerComments === false || !mode.innerMode ? mode : cm.getModeAt(pos);
@@ -206,30 +208,49 @@ function _getLineCommentPrefixEdit(editor: Editor, prefixes: Array<string>, bloc
         containsNotLineComment = _containsNotLineComment(editor, startLine, endLine, lineExp);
 
     if (containsNotLineComment) {
-        // Comment out - prepend the first prefix to each line
-        line = editor._codeMirror.getLine(startLine);
-        var originalCursorPosition = line.search(/\S|$/);
+        var firstCharPosition,
+            baseString = null,
+            text,
+            commentString = prefixes[0];
 
-        var firstCharPosition, cursorPosition = originalCursorPosition;
-
-        for (i = startLine; i <= endLine; i++) {
-            //check if preference for indent line comment is available otherwise go back to default indentation
-            if (options.indent) {
-                //ignore the first line and recalculate cursor position for first non white space char of every line
-                if (i !== startLine) {
-                    line = editor._codeMirror.getLine(i);
-                    firstCharPosition = line.search(/\S|$/);
+        if (options.indent) {
+            for (i = startLine; i <= endLine; i++) {
+                line = editor._codeMirror.getLine(i);
+                var whitespace = line.slice(0, _firstNotWs(line));
+                if (baseString === null || (whitespace.length > 0 && baseString.length > whitespace.length)) {
+                    baseString = whitespace;
                 }
-                //if the non space first character position is before original start position , put comment at the new position otherwise older pos
-                if (firstCharPosition < originalCursorPosition) {
-                    cursorPosition = firstCharPosition;
+            }
+
+            for (i = startLine; i <= endLine; i++) {
+                line = editor._codeMirror.getLine(i);
+                firstCharPosition = line.search(nonWS);
+                if (firstCharPosition === -1) {
+                    if (line.length === 0) {
+                        text = baseString + commentString;
+                        editGroup.push({text: text, start: {line: i, ch: 0}});
+                    } else if (line.length === baseString.length) {
+                        text = commentString;
+                        editGroup.push({text: text, start: {line: i, ch: line.length}});
+                    } else if (line.length > baseString.length) {
+                        text = commentString;
+                        editGroup.push({text: text, start: {line: i, ch: baseString.length}});
+                    } else {
+                        text = baseString + commentString;
+                        editGroup.push({text: text, start: {line: i, ch: 0}});
+                    }
                 } else {
-                    cursorPosition = originalCursorPosition;
+                    text = commentString;
+                    let cut = baseString.length;
+                    if (line.slice(0, cut) !== baseString) {
+                        cut = firstCharPosition;
+                    }
+                    editGroup.push({text: text, start: {line: i, ch: cut}});
                 }
-
-                editGroup.push({text: prefixes[0], start: {line: i, ch: cursorPosition}});
-            } else {
-                editGroup.push({text: prefixes[0], start: {line: i, ch: 0}});
+            }
+        } else {
+            for (i = startLine; i <= endLine; i++) {
+                editGroup.push({text: commentString, start: {line: i, ch: 0}});
             }
         }
 
@@ -237,7 +258,7 @@ function _getLineCommentPrefixEdit(editor: Editor, prefixes: Array<string>, bloc
         _.each(trackedSels, function (trackedSel) {
             if (trackedSel.start.ch === 0 && CodeMirror.cmpPos(trackedSel.start, trackedSel.end) !== 0) {
                 trackedSel.start = {line: trackedSel.start.line, ch: 0};
-                trackedSel.end = {line: trackedSel.end.line, ch: (trackedSel.end.line === endLine ? trackedSel.end.ch + prefixes[0].length : 0)};
+                trackedSel.end = {line: trackedSel.end.line, ch: (trackedSel.end.line === endLine ? trackedSel.end.ch + commentString.length : 0)};
             } else {
                 trackedSel.isBeforeEdit = true;
             }
@@ -309,13 +330,13 @@ function _isPrevTokenABlockComment(ctx, prefix: string, suffix: string, prefixEx
  * @param {number} lineNum
  * @returns {number} the column index or null
  */
-function _firstNotWs(cm: CodeMirror.Doc, lineNum: number) {
-    var text = cm.getLine(lineNum);
+function _firstNotWs(text: string) {
     if (text === null || text === undefined) {
         return 0;
     }
 
-    return text.search(/\S|$/);
+    var found = text.search(/\S|$/);
+    return found === -1 ? 0 : found;
 }
 
 /**
@@ -493,10 +514,10 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
         // Comment out - add the suffix to the start and the prefix to the end.
         if (canComment) {
             var completeLineSel = sel.start.ch === 0 && sel.end.ch === 0 && sel.start.line < sel.end.line;
-            var startCh = _firstNotWs(editor._codeMirror, sel.start.line);
+            var startCh = _firstNotWs(editor._codeMirror.getLine(sel.start.line));
             if (completeLineSel) {
                 if (isIndentLineCommand()) {
-                    var endCh = _firstNotWs(editor._codeMirror, sel.end.line - 1);
+                    var endCh = _firstNotWs(editor._codeMirror.getLine(sel.end.line - 1));
                     var useTabChar = editor._codeMirror.getOption("indentWithTabs");
                     var indentChar = useTabChar ? "\t" : " ";
                     editGroup.push({

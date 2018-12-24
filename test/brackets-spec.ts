@@ -486,8 +486,7 @@ describe("EditorCommandHandlers", function () {
                 "",
                 "}"
             ].join("\n");
-            // FIXME
-            // testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(6, 0)});
+            testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(6, 0)});
         });
 
         it("should uncomment ragged partial comments", function () {

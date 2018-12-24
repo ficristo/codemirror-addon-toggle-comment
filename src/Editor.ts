@@ -30,7 +30,7 @@ export class Editor {
     setCursorPos(line, ch) {
         this._codeMirror.setCursor(CodeMirror.Pos(line, ch));
     }
-    
+
     indexFromPos(coords) {
         return this._codeMirror.indexFromPos(coords);
     }

@@ -45,7 +45,7 @@ describe("EditorCommandHandlers", function () {
         "        ",
         "    }",
         "",
-        "}"
+        "}",
     ].join("\n");
 
     let myEditor;
@@ -55,7 +55,9 @@ describe("EditorCommandHandlers", function () {
     function setupFullEditor(content?, languageId = "javascript") {
         content = content || defaultContent;
         const container = document.createElement("div");
-        const codeMirror = CodeMirror(container);
+        // Remove when https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31640 is fixed.
+        // @ts-ignore
+        const codeMirror = new CodeMirror(container);
 
         myEditor = new Editor(codeMirror);
         myEditor._codeMirror.setOption("mode", languageId);
@@ -160,7 +162,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, Pos(3, 0));
@@ -178,7 +180,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, Pos(3, 14));
@@ -196,7 +198,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, Pos(0, 2));
@@ -215,7 +217,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(1, 6), end: Pos(1, 14)});
@@ -234,7 +236,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(1, 22)});
@@ -253,7 +255,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(2, 0)});
@@ -272,7 +274,7 @@ describe("EditorCommandHandlers", function () {
                 "    //    ",
                 "    //}",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(6, 0)});
@@ -290,7 +292,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(1, 8), end: Pos(3, 11)}, "nction bar() {\n    //    \n    //    a");
@@ -308,7 +310,7 @@ describe("EditorCommandHandlers", function () {
                 "        //",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(2, 0), end: Pos(4, 10)});
@@ -334,7 +336,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -354,7 +356,7 @@ describe("EditorCommandHandlers", function () {
                 "//        ",
                 "//    }",
                 "//",
-                "//}"
+                "//}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(0, 0), end: Pos(7, 3)});
@@ -371,7 +373,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -386,7 +388,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(4, 0)});
@@ -403,7 +405,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -418,7 +420,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(4, 0)});
@@ -435,7 +437,7 @@ describe("EditorCommandHandlers", function () {
                 "    //    ",
                 "    //}",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -456,7 +458,7 @@ describe("EditorCommandHandlers", function () {
                 "",
                 "    //}",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -471,7 +473,7 @@ describe("EditorCommandHandlers", function () {
                 "",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(6, 0)});
@@ -484,7 +486,7 @@ describe("EditorCommandHandlers", function () {
                 "    //",
                 "    //}",
                 "",
-                "}"
+                "}",
             ].join("\n");
             testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(6, 0)});
         });
@@ -499,7 +501,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    //}",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -516,7 +518,7 @@ describe("EditorCommandHandlers", function () {
                 "    //    ",
                 "    //}",
                 "",
-                "}"
+                "}",
             ].join("\n");
             testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(6, 0)});
         });
@@ -525,7 +527,7 @@ describe("EditorCommandHandlers", function () {
             it("should toggle comments on separate lines with cursor selections", function () {
                 myEditor.setSelections([
                     {start: Pos(1, 4), end: Pos(1, 4)},
-                    {start: Pos(3, 4), end: Pos(3, 4)}
+                    {start: Pos(3, 4), end: Pos(3, 4)},
                 ]);
 
                 const expectedText = [
@@ -536,23 +538,23 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
 
                 testToggleLine(expectedText, [
                     {start: Pos(1, 6), end: Pos(1, 6), primary: false, reversed: false},
-                    {start: Pos(3, 4), end: Pos(3, 4), reversed: false, primary: true}
+                    {start: Pos(3, 4), end: Pos(3, 4), reversed: false, primary: true},
                 ]);
                 testToggleLine(defaultContent, [
                     {start: Pos(1, 4), end: Pos(1, 4), primary: false, reversed: false},
-                    {start: Pos(3, 4), end: Pos(3, 4), reversed: false, primary: true}
+                    {start: Pos(3, 4), end: Pos(3, 4), reversed: false, primary: true},
                 ]);
             });
 
             it("should toggle comments on separate lines with range selections", function () {
                 myEditor.setSelections([
                     {start: Pos(1, 4), end: Pos(1, 6)},
-                    {start: Pos(3, 4), end: Pos(3, 6)}
+                    {start: Pos(3, 4), end: Pos(3, 6)},
                 ]);
 
                 const expectedText = [
@@ -563,23 +565,23 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
 
                 testToggleLine(expectedText, [
                     { start: Pos(1, 6), end: Pos(1, 8), reversed: false, primary: false },
-                    { start: Pos(3, 4), end: Pos(3, 6), reversed: false, primary: true }
+                    { start: Pos(3, 4), end: Pos(3, 6), reversed: false, primary: true },
                 ]);
                 testToggleLine(defaultContent, [
                     { start: Pos(1, 4), end: Pos(1, 6), reversed: false, primary: false },
-                    { start: Pos(3, 4), end: Pos(3, 6), reversed: false, primary: true }
+                    { start: Pos(3, 4), end: Pos(3, 6), reversed: false, primary: true },
                 ]);
             });
 
             it("should toggle comments on separate lines with multiline selections", function () {
                 myEditor.setSelections([
                     {start: Pos(1, 4), end: Pos(2, 6)},
-                    {start: Pos(3, 4), end: Pos(4, 6)}
+                    {start: Pos(3, 4), end: Pos(4, 6)},
                 ]);
 
                 const expectedText = [
@@ -590,23 +592,23 @@ describe("EditorCommandHandlers", function () {
                     "        //",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
 
                 testToggleLine(expectedText, [
                     {start: Pos(1, 6), end: Pos(2, 8), reversed: false, primary: false},
-                    {start: Pos(3, 4), end: Pos(4, 6), reversed: false, primary: true}
+                    {start: Pos(3, 4), end: Pos(4, 6), reversed: false, primary: true},
                 ]);
                 testToggleLine(defaultContent, [
                     {start: Pos(1, 4), end: Pos(2, 6), reversed: false, primary: false},
-                    {start: Pos(3, 4), end: Pos(4, 6), reversed: false, primary: true}
+                    {start: Pos(3, 4), end: Pos(4, 6), reversed: false, primary: true},
                 ]);
             });
 
             it("should adjust selections appropriately at start of line", function () {
                 myEditor.setSelections([
                     {start: Pos(1, 0), end: Pos(1, 0)},
-                    {start: Pos(3, 0), end: Pos(3, 6)}
+                    {start: Pos(3, 0), end: Pos(3, 6)},
                 ]);
 
                 // FIXME
@@ -636,7 +638,7 @@ describe("EditorCommandHandlers", function () {
                     {start: Pos(1, 4), end: Pos(1, 4)},
                     {start: Pos(1, 6), end: Pos(2, 4), primary: true},
                     {start: Pos(3, 4), end: Pos(3, 4)},
-                    {start: Pos(3, 6), end: Pos(3, 8), reversed: true}
+                    {start: Pos(3, 6), end: Pos(3, 8), reversed: true},
                 ]);
 
                 const expectedText = [
@@ -647,20 +649,20 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
 
                 testToggleLine(expectedText, [
                     {start: Pos(1, 6), end: Pos(1, 6), reversed: false, primary: false},
                     {start: Pos(1, 8), end: Pos(2, 6), reversed: false, primary: true},
                     {start: Pos(3, 4), end: Pos(3, 4), reversed: false, primary: false},
-                    {start: Pos(3, 6), end: Pos(3, 10), reversed: true, primary: false}
+                    {start: Pos(3, 6), end: Pos(3, 10), reversed: true, primary: false},
                 ]);
                 testToggleLine(defaultContent, [
                     {start: Pos(1, 4), end: Pos(1, 4), reversed: false, primary: false},
                     {start: Pos(1, 6), end: Pos(2, 4), reversed: false, primary: true},
                     {start: Pos(3, 4), end: Pos(3, 4), reversed: false, primary: false},
-                    {start: Pos(3, 6), end: Pos(3, 8), reversed: true, primary: false}
+                    {start: Pos(3, 6), end: Pos(3, 8), reversed: true, primary: false},
                 ]);
             });
 
@@ -673,14 +675,14 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    //}",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
                 myEditor.setText(startingContent);
 
                 myEditor.setSelections([
                     {start: Pos(1, 4), end: Pos(1, 4)},
                     {start: Pos(3, 4), end: Pos(3, 4)},
-                    {start: Pos(5, 4), end: Pos(5, 4)}
+                    {start: Pos(5, 4), end: Pos(5, 4)},
                 ]);
 
                 const expectedText = [
@@ -691,18 +693,18 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
 
                 testToggleLine(expectedText, [
                     { start : Pos(1, 4), end : Pos(1, 4), reversed : false, primary : false },
                     { start : Pos(3, 6), end : Pos(3, 6), reversed : false, primary : false },
-                    { start : Pos(5, 4), end : Pos(5, 4), reversed : false, primary : true }
+                    { start : Pos(5, 4), end : Pos(5, 4), reversed : false, primary : true },
                 ]);
                 testToggleLine(startingContent, [
                     { start : Pos(1, 6), end : Pos(1, 6), reversed : false, primary : false },
                     { start : Pos(3, 4), end : Pos(3, 4), reversed : false, primary : false },
-                    { start : Pos(5, 6), end : Pos(5, 6), reversed : false, primary : true }
+                    { start : Pos(5, 6), end : Pos(5, 6), reversed : false, primary : true },
                 ]);
             });
 
@@ -715,14 +717,14 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
                 myEditor.setText(startingContent);
 
                 myEditor.setSelections([
                     {start: Pos(1, 4), end: Pos(1, 4)},
                     {start: Pos(2, 4), end: Pos(2, 4)},
-                    {start: Pos(3, 4), end: Pos(3, 4)}
+                    {start: Pos(3, 4), end: Pos(3, 4)},
                 ]);
 
                 let expectedText = [
@@ -733,12 +735,12 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
                 testToggleLine(expectedText, [
                     {start: Pos(1, 2), end: Pos(1, 2), primary: false, reversed: false},
                     {start: Pos(2, 6), end: Pos(2, 6), primary: false, reversed: false},
-                    {start: Pos(3, 2), end: Pos(3, 2), primary: true, reversed: false}
+                    {start: Pos(3, 2), end: Pos(3, 2), primary: true, reversed: false},
                 ]);
 
                 expectedText = [
@@ -749,12 +751,12 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
                 testToggleLine(expectedText, [
                     {start: Pos(1, 2), end: Pos(1, 2), primary: false, reversed: false},
                     {start: Pos(2, 4), end: Pos(2, 4), primary: false, reversed: false},
-                    {start: Pos(3, 2), end: Pos(3, 2), primary: true, reversed: false}
+                    {start: Pos(3, 2), end: Pos(3, 2), primary: true, reversed: false},
                 ]);
             });
         });
@@ -779,7 +781,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, Pos(3, 2));
@@ -797,7 +799,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, Pos(3, 14));
@@ -815,7 +817,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, Pos(0, 2));
@@ -834,7 +836,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(1, 6), end: Pos(1, 14)});
@@ -853,7 +855,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(1, 22)});
@@ -872,7 +874,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(2, 0)});
@@ -891,7 +893,7 @@ describe("EditorCommandHandlers", function () {
                 "//        ",
                 "//    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(6, 0)});
@@ -909,7 +911,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(1, 8), end: Pos(3, 11)}, "nction bar() {\n//        \n//        a");
@@ -927,7 +929,7 @@ describe("EditorCommandHandlers", function () {
                 "//        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(2, 0), end: Pos(4, 10)});
@@ -944,7 +946,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -959,7 +961,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(4, 0)});
@@ -976,7 +978,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -991,7 +993,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(4, 0)});
@@ -1002,7 +1004,7 @@ describe("EditorCommandHandlers", function () {
             it("should toggle comments on separate lines with cursor selections", function () {
                 myEditor.setSelections([
                     {start: Pos(1, 4), end: Pos(1, 4)},
-                    {start: Pos(3, 4), end: Pos(3, 4)}
+                    {start: Pos(3, 4), end: Pos(3, 4)},
                 ]);
                 const expectedText = [
                     "function foo() {",
@@ -1012,23 +1014,23 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
 
                 testToggleLine(expectedText, [
                     {start: Pos(1, 6), end: Pos(1, 6), primary: false, reversed: false},
-                    {start: Pos(3, 6), end: Pos(3, 6), primary: true, reversed: false}
+                    {start: Pos(3, 6), end: Pos(3, 6), primary: true, reversed: false},
                 ]);
                 testToggleLine(defaultContent, [
                     {start: Pos(1, 4), end: Pos(1, 4), primary: false, reversed: false},
-                    {start: Pos(3, 4), end: Pos(3, 4), primary: true, reversed: false}
+                    {start: Pos(3, 4), end: Pos(3, 4), primary: true, reversed: false},
                 ]);
             });
 
             it("should toggle comments on separate lines with range selections", function () {
                 myEditor.setSelections([
                     {start: Pos(1, 4), end: Pos(1, 6)},
-                    {start: Pos(3, 4), end: Pos(3, 6)}
+                    {start: Pos(3, 4), end: Pos(3, 6)},
                 ]);
 
                 const expectedText = [
@@ -1039,23 +1041,23 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
 
                 testToggleLine(expectedText, [
                     {start: Pos(1, 6), end: Pos(1, 8), primary: false, reversed: false},
-                    {start: Pos(3, 6), end: Pos(3, 8), primary: true, reversed: false}
+                    {start: Pos(3, 6), end: Pos(3, 8), primary: true, reversed: false},
                 ]);
                 testToggleLine(defaultContent, [
                     {start: Pos(1, 4), end: Pos(1, 6), primary: false, reversed: false},
-                    {start: Pos(3, 4), end: Pos(3, 6), primary: true, reversed: false}
+                    {start: Pos(3, 4), end: Pos(3, 6), primary: true, reversed: false},
                 ]);
             });
 
             it("should toggle comments on separate lines with multiline selections", function () {
                 myEditor.setSelections([
                     {start: Pos(1, 4), end: Pos(2, 6)},
-                    {start: Pos(3, 4), end: Pos(4, 6)}
+                    {start: Pos(3, 4), end: Pos(4, 6)},
                 ]);
 
                 const expectedText = [
@@ -1066,23 +1068,23 @@ describe("EditorCommandHandlers", function () {
                     "//        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
 
                 testToggleLine(expectedText, [
                     {start: Pos(1, 6), end: Pos(2, 8), primary: false, reversed: false},
-                    {start: Pos(3, 6), end: Pos(4, 8), primary: true, reversed: false}
+                    {start: Pos(3, 6), end: Pos(4, 8), primary: true, reversed: false},
                 ]);
                 testToggleLine(defaultContent, [
                     {start: Pos(1, 4), end: Pos(2, 6), primary: false, reversed: false},
-                    {start: Pos(3, 4), end: Pos(4, 6), primary: true, reversed: false}
+                    {start: Pos(3, 4), end: Pos(4, 6), primary: true, reversed: false},
                 ]);
             });
 
             it("should adjust selections appropriately at start of line", function () {
                 myEditor.setSelections([
                     {start: Pos(1, 0), end: Pos(1, 0)},
-                    {start: Pos(3, 0), end: Pos(3, 6)}
+                    {start: Pos(3, 0), end: Pos(3, 6)},
                 ]);
 
                 const expectedText = [
@@ -1093,16 +1095,16 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
 
                 testToggleLine(expectedText, [
                     {start: Pos(1, 2), end: Pos(1, 2), primary: false, reversed: false},
-                    {start: Pos(3, 0), end: Pos(3, 8), primary: true, reversed: false}
+                    {start: Pos(3, 0), end: Pos(3, 8), primary: true, reversed: false},
                 ]);
                 testToggleLine(defaultContent, [
                     {start: Pos(1, 0), end: Pos(1, 0), primary: false, reversed: false},
-                    {start: Pos(3, 0), end: Pos(3, 6), primary: true, reversed: false}
+                    {start: Pos(3, 0), end: Pos(3, 6), primary: true, reversed: false},
                 ]);
             });
 
@@ -1111,7 +1113,7 @@ describe("EditorCommandHandlers", function () {
                     {start: Pos(1, 4), end: Pos(1, 4)},
                     {start: Pos(1, 6), end: Pos(2, 4), primary: true},
                     {start: Pos(3, 4), end: Pos(3, 4)},
-                    {start: Pos(3, 6), end: Pos(3, 8), reversed: true}
+                    {start: Pos(3, 6), end: Pos(3, 8), reversed: true},
                 ]);
 
                 const expectedText = [
@@ -1122,20 +1124,20 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
 
                 testToggleLine(expectedText, [
                     {start: Pos(1, 6), end: Pos(1, 6), primary: false, reversed: false},
                     {start: Pos(1, 8), end: Pos(2, 6), primary: true, reversed: false},
                     {start: Pos(3, 6), end: Pos(3, 6), primary: false, reversed: false},
-                    {start: Pos(3, 8), end: Pos(3, 10), primary: false, reversed: true}
+                    {start: Pos(3, 8), end: Pos(3, 10), primary: false, reversed: true},
                 ]);
                 testToggleLine(defaultContent, [
                     {start: Pos(1, 4), end: Pos(1, 4), primary: false, reversed: false},
                     {start: Pos(1, 6), end: Pos(2, 4), primary: true, reversed: false},
                     {start: Pos(3, 4), end: Pos(3, 4), primary: false, reversed: false},
-                    {start: Pos(3, 6), end: Pos(3, 8), primary: false, reversed: true}
+                    {start: Pos(3, 6), end: Pos(3, 8), primary: false, reversed: true},
                 ]);
             });
 
@@ -1148,14 +1150,14 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "//    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
                 myEditor.setText(startingContent);
 
                 myEditor.setSelections([
                     {start: Pos(1, 4), end: Pos(1, 4)},
                     {start: Pos(3, 4), end: Pos(3, 4)},
-                    {start: Pos(5, 4), end: Pos(5, 4)}
+                    {start: Pos(5, 4), end: Pos(5, 4)},
                 ]);
 
                 const expectedText = [
@@ -1166,18 +1168,18 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
 
                 testToggleLine(expectedText, [
                     {start: Pos(1, 2), end: Pos(1, 2), primary: false, reversed: false},
                     {start: Pos(3, 6), end: Pos(3, 6), primary: false, reversed: false},
-                    {start: Pos(5, 2), end: Pos(5, 2), primary: true, reversed: false}
+                    {start: Pos(5, 2), end: Pos(5, 2), primary: true, reversed: false},
                 ]);
                 testToggleLine(startingContent, [
                     {start: Pos(1, 4), end: Pos(1, 4), primary: false, reversed: false},
                     {start: Pos(3, 4), end: Pos(3, 4), primary: false, reversed: false},
-                    {start: Pos(5, 4), end: Pos(5, 4), primary: true, reversed: false}
+                    {start: Pos(5, 4), end: Pos(5, 4), primary: true, reversed: false},
                 ]);
             });
 
@@ -1190,14 +1192,14 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
                 myEditor.setText(startingContent);
 
                 myEditor.setSelections([
                     {start: Pos(1, 4), end: Pos(1, 4)},
                     {start: Pos(2, 4), end: Pos(2, 4)},
-                    {start: Pos(3, 4), end: Pos(3, 4)}
+                    {start: Pos(3, 4), end: Pos(3, 4)},
                 ]);
 
                 const expectedText = [
@@ -1208,18 +1210,18 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
 
                 testToggleLine(expectedText, [
                     {start: Pos(1, 2), end: Pos(1, 2), primary: false, reversed: false},
                     {start: Pos(2, 6), end: Pos(2, 6), primary: false, reversed: false},
-                    {start: Pos(3, 2), end: Pos(3, 2), primary: true, reversed: false}
+                    {start: Pos(3, 2), end: Pos(3, 2), primary: true, reversed: false},
                 ]);
                 testToggleLine(startingContent, [
                     {start: Pos(1, 4), end: Pos(1, 4), primary: false, reversed: false},
                     {start: Pos(2, 4), end: Pos(2, 4), primary: false, reversed: false},
-                    {start: Pos(3, 4), end: Pos(3, 4), primary: true, reversed: false}
+                    {start: Pos(3, 4), end: Pos(3, 4), primary: true, reversed: false},
                 ]);
             });
         });
@@ -1231,7 +1233,7 @@ describe("EditorCommandHandlers", function () {
             "    <body>",
             "        <p>Hello</p>",
             "    </body>",
-            "</html>"
+            "</html>",
         ].join("\n");
 
         beforeEach(function () {
@@ -1251,7 +1253,7 @@ describe("EditorCommandHandlers", function () {
                 "    <body>",
                 "        <!--<p>Hello</p>-->",
                 "    </body>",
-                "</html>"
+                "</html>",
             ].join("\n");
 
             testToggleLine(expectedText, Pos(2, 0));
@@ -1268,7 +1270,7 @@ describe("EditorCommandHandlers", function () {
                 "        <p>Hello</p>",
                 "    </body>",
                 "    -->",
-                "</html>"
+                "</html>",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(2, 7), end: Pos(4, 7)});
@@ -1285,7 +1287,7 @@ describe("EditorCommandHandlers", function () {
                 "        <p>Hello</p>",
                 "        -->",
                 "    </body>",
-                "</html>"
+                "</html>",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(2, 7), end: Pos(3, 7)});
@@ -1301,7 +1303,7 @@ describe("EditorCommandHandlers", function () {
                 "        <p>Hello</p>",
                 "    <!--",
                 "    </body>",
-                "</html>-->\n"
+                "</html>-->\n",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(4, 9), end: Pos(5, 5)});
@@ -1315,7 +1317,7 @@ describe("EditorCommandHandlers", function () {
             "\t<body>",
             "\t\t<p>Hello</p>",
             "\t</body>",
-            "</html>"
+            "</html>",
         ].join("\n");
 
         beforeEach(function () {
@@ -1337,7 +1339,7 @@ describe("EditorCommandHandlers", function () {
                 "\t<body>",
                 "\t\t<!--<p>Hello</p>-->",
                 "\t</body>",
-                "</html>"
+                "</html>",
             ].join("\n");
 
             testToggleLine(expectedText, Pos(2, 0));
@@ -1354,7 +1356,7 @@ describe("EditorCommandHandlers", function () {
                 "\t\t<p>Hello</p>",
                 "\t</body>",
                 "\t-->",
-                "</html>"
+                "</html>",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(2, 4), end: Pos(4, 4)});
@@ -1371,7 +1373,7 @@ describe("EditorCommandHandlers", function () {
                 "\t\t<p>Hello</p>",
                 "\t\t-->",
                 "\t</body>",
-                "</html>"
+                "</html>",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(2, 4), end: Pos(3, 7)});
@@ -1387,7 +1389,7 @@ describe("EditorCommandHandlers", function () {
                 "\t\t<p>Hello</p>",
                 "\t<!--",
                 "\t</body>",
-                "</html>-->\n"
+                "</html>-->\n",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(4, 6), end: Pos(5, 2)});
@@ -1402,7 +1404,7 @@ describe("EditorCommandHandlers", function () {
             "    <body>",
             "        <p>Hello</p>",
             "    </body>",
-            "</html>"
+            "</html>",
         ].join("\n");
 
         beforeEach(function () {
@@ -1422,7 +1424,7 @@ describe("EditorCommandHandlers", function () {
                 "    <body>",
                 "<!---->        <p>Hello</p>",
                 "    </body>",
-                "</html>"
+                "</html>",
             ].join("\n");
 
             testToggleBlock(expectedText, Pos(2, 4));
@@ -1437,7 +1439,7 @@ describe("EditorCommandHandlers", function () {
                 "    <body>",
                 "        <p>Hello</p><!---->",
                 "    </body>",
-                "</html>"
+                "</html>",
             ].join("\n");
 
             testToggleBlock(expectedText, Pos(2, 24));
@@ -1452,7 +1454,7 @@ describe("EditorCommandHandlers", function () {
                 "    <!--<body>",
                 "        <p>Hello</p>",
                 "    </body>-->",
-                "</html>"
+                "</html>",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(1, 8), end: Pos(3, 11)});
@@ -1464,14 +1466,14 @@ describe("EditorCommandHandlers", function () {
         beforeAll(function () {
             // Define a special version of JavaScript for testing purposes
             CodeMirror.extendMode("javascript", {
-                "lineComment": <any>["//", "////", "#"]
+                "lineComment": <any>["//", "////", "#"],
             });
         });
 
         afterAll(function () {
             // Restore the JavaScript mode
             CodeMirror.extendMode("javascript", {
-                "lineComment": "//"
+                "lineComment": "//",
             });
         });
 
@@ -1491,7 +1493,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(expectedText, {start: Pos(0, 6), end: Pos(1, 14)});
@@ -1508,7 +1510,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "#    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -1523,7 +1525,7 @@ describe("EditorCommandHandlers", function () {
                 "//        ",
                 "//    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleLine(defaultContent, {start: Pos(1, 0), end: Pos(6, 0)});
@@ -1540,7 +1542,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -1590,36 +1592,36 @@ describe("EditorCommandHandlers", function () {
         it("should properly restore the cursors", function () {
             myEditor.setSelections([
                 {start: Pos(1, 4), end: Pos(1, 4)},
-                {start: Pos(3, 4), end: Pos(3, 4)}
+                {start: Pos(3, 4), end: Pos(3, 4)},
             ]);
 
             testToggleLine(defaultContent, [
                 {start: Pos(1, 4), end: Pos(1, 4), reversed: false, primary: false},
-                {start: Pos(3, 4), end: Pos(3, 4), reversed: false, primary: true}
+                {start: Pos(3, 4), end: Pos(3, 4), reversed: false, primary: true},
             ]);
         });
 
         it("should properly restore the range selections", function () {
             myEditor.setSelections([
                 {start: Pos(1, 4), end: Pos(1, 6)},
-                {start: Pos(3, 4), end: Pos(3, 6)}
+                {start: Pos(3, 4), end: Pos(3, 6)},
             ]);
 
             testToggleLine(defaultContent, [
                 {start: Pos(1, 4), end: Pos(1, 6), reversed: false, primary: false},
-                {start: Pos(3, 4), end: Pos(3, 6), reversed: false, primary: true}
+                {start: Pos(3, 4), end: Pos(3, 6), reversed: false, primary: true},
             ]);
         });
 
         it("should properly restore primary/reversed range selections", function () {
             myEditor.setSelections([
                 {start: Pos(1, 4), end: Pos(1, 4), primary: true},
-                {start: Pos(3, 4), end: Pos(3, 12), reversed: true}
+                {start: Pos(3, 4), end: Pos(3, 12), reversed: true},
             ]);
 
             testToggleLine(defaultContent, [
                 {start: Pos(1, 4), end: Pos(1, 4), reversed: false, primary: true},
-                {start: Pos(3, 4), end: Pos(3, 12), reversed: true, primary: false}
+                {start: Pos(3, 4), end: Pos(3, 12), reversed: true, primary: false},
             ]);
         });
     });
@@ -1640,7 +1642,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, Pos(0, 2));
@@ -1657,7 +1659,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -1672,7 +1674,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, Pos(3, 6));
@@ -1690,7 +1692,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             // Selects just text within block
@@ -1708,7 +1710,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -1725,7 +1727,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, Pos(1, 18));
         });
@@ -1740,7 +1742,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -1757,7 +1759,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, Pos(1, 20));
         });
@@ -1772,7 +1774,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -1794,7 +1796,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             // Selects just text within block
@@ -1813,7 +1815,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             // Selects just text within block
@@ -1834,7 +1836,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             // Selects original line, but not block-delimiter lines
@@ -1855,7 +1857,7 @@ describe("EditorCommandHandlers", function () {
                 "    }",
                 "*/",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             // Selects original lines, but not block-delimiter lines
@@ -1874,7 +1876,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             // Selects just text within block
@@ -1891,7 +1893,7 @@ describe("EditorCommandHandlers", function () {
             "    ",
             "    b();",
             "*/",
-            "}"
+            "}",
         ].join("\n");
 
         it("should block uncomment, cursor in whitespace within block comment", function () {
@@ -1904,7 +1906,7 @@ describe("EditorCommandHandlers", function () {
                 "    a();",
                 "    ",
                 "    b();",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, Pos(2, 2));
@@ -1914,7 +1916,7 @@ describe("EditorCommandHandlers", function () {
                 "    a();",
                 "  /**/  ",
                 "    b();",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, Pos(2, 4));
         });
@@ -1929,7 +1931,7 @@ describe("EditorCommandHandlers", function () {
                 "    a();",
                 "    ",
                 "    b();",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(2, 0), end: Pos(2, 4)});
 
@@ -1938,7 +1940,7 @@ describe("EditorCommandHandlers", function () {
                 "    a();",
                 "/*    */",
                 "    b();",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(2, 2), end: Pos(2, 6)});
         });
@@ -1952,7 +1954,7 @@ describe("EditorCommandHandlers", function () {
             "    ",
             "    b();*/",
             "    ",
-            "}"
+            "}",
         ].join("\n");
 
         it("should block uncomment, selection covers block comment plus whitespace before", function () {
@@ -1967,7 +1969,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    b();",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(1, 0), end: Pos(4, 8)});
@@ -1979,7 +1981,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    b();*/",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(1, 2), end: Pos(4, 8)});
         });
@@ -1996,7 +1998,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    b();",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(2, 4), end: Pos(5, 4)});
 
@@ -2007,7 +2009,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    b();",
                 "    */",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(2, 6), end: Pos(5, 4)});
         });
@@ -2024,7 +2026,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    b();",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(1, 0), end: Pos(3, 4)});
 
@@ -2035,7 +2037,7 @@ describe("EditorCommandHandlers", function () {
                 "    */",
                 "    b();",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(1, 2), end: Pos(3, 4)});
         });
@@ -2052,7 +2054,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    b();",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(3, 4), end: Pos(5, 4)});
 
@@ -2063,7 +2065,7 @@ describe("EditorCommandHandlers", function () {
                 "    /*",
                 "    b();",
                 "    */",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(3, 6), end: Pos(5, 4)});
         });
@@ -2080,7 +2082,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    b();",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(1, 0), end: Pos(5, 4)});
 
@@ -2091,7 +2093,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    b();",
                 "    */",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(1, 2), end: Pos(5, 4)});
         });
@@ -2108,7 +2110,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -2125,7 +2127,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(1, 6), end: Pos(1, 22)});
         });
@@ -2138,7 +2140,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    b();*/",
                 "    c();",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(content);
 
@@ -2151,7 +2153,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    b();",
                 "    c();",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(0, 5), end: Pos(5, 5)});
 
@@ -2162,7 +2164,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    b();",
                 "    c*/();",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(0, 7), end: Pos(5, 5)});
         });
@@ -2180,7 +2182,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -2200,7 +2202,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -2220,7 +2222,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -2240,7 +2242,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -2260,20 +2262,20 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
 
                 myEditor.setSelections([
                     {start: Pos(1, 4), end: Pos(1, 4), primary: true},
-                    {start: Pos(3, 4), end: Pos(3, 12), reversed: true}
+                    {start: Pos(3, 4), end: Pos(3, 12), reversed: true},
                 ]);
                 testToggleBlock(startingContent, [
                     {start: Pos(1, 6), end: Pos(1, 6), primary: true, reversed: false},
-                    {start: Pos(3, 6), end: Pos(3, 14), primary: false, reversed: true}
+                    {start: Pos(3, 6), end: Pos(3, 14), primary: false, reversed: true},
                 ]);
                 testToggleBlock(defaultContent, [
                     {start: Pos(1, 4), end: Pos(1, 4), primary: true, reversed: false},
-                    {start: Pos(3, 4), end: Pos(3, 12), primary: false, reversed: true}
+                    {start: Pos(3, 4), end: Pos(3, 12), primary: false, reversed: true},
                 ]);
             });
 
@@ -2286,13 +2288,13 @@ describe("EditorCommandHandlers", function () {
                     "    /*a*/ /*()*/ {",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
                 myEditor.setText(startingContent);
 
                 myEditor.setSelections([
                     {start: Pos(0, 0), end: Pos(1, 0)},
-                    {start: Pos(4, 0), end: Pos(4, 18), reversed: true}
+                    {start: Pos(4, 0), end: Pos(4, 18), reversed: true},
                 ]);
 
                 const expectedText = [
@@ -2305,16 +2307,16 @@ describe("EditorCommandHandlers", function () {
                     "    /*a*/ /*()*/ {",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
 
                 testToggleBlock(expectedText, [
                     {start: Pos(1, 0), end: Pos(2, 0), primary: false, reversed: false},
-                    {start: Pos(6, 0), end: Pos(6, 18), primary: true, reversed: true}
+                    {start: Pos(6, 0), end: Pos(6, 18), primary: true, reversed: true},
                 ]);
                 testToggleBlock(startingContent, [
                     {start: Pos(0, 0), end: Pos(1, 0), primary: false, reversed: false},
-                    {start: Pos(4, 0), end: Pos(4, 18), primary: true, reversed: true}
+                    {start: Pos(4, 0), end: Pos(4, 18), primary: true, reversed: true},
                 ]);
             });
         });
@@ -2340,7 +2342,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -2356,7 +2358,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, Pos(1, 18));
         });
@@ -2371,7 +2373,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -2387,7 +2389,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, Pos(1, 2));
         });
@@ -2396,7 +2398,7 @@ describe("EditorCommandHandlers", function () {
             const content = [
                 "function foo()",
                 "    // Comment",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(content);
 
@@ -2405,14 +2407,14 @@ describe("EditorCommandHandlers", function () {
             let expectedText = [
                 "function foo()",
                 "     Comment",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(1, 4), end: Pos(1, 11)});
 
             expectedText = [
                 "function foo()",
                 "    /* Commen*/t",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(1, 6), end: Pos(1, 13)});
         });
@@ -2421,7 +2423,7 @@ describe("EditorCommandHandlers", function () {
             const content = [
                 "function foo()",
                 "    // Comment",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(content);
 
@@ -2430,14 +2432,14 @@ describe("EditorCommandHandlers", function () {
             let expectedText = [
                 "function foo()",
                 "     Comment",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(1, 4), end: Pos(1, 12)});
 
             expectedText = [
                 "function foo()",
                 "    /* Comment*/",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(1, 6), end: Pos(1, 14)});
         });
@@ -2446,7 +2448,7 @@ describe("EditorCommandHandlers", function () {
             const content = [
                 "function foo()",
                 "    // Comment",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(content);
 
@@ -2455,14 +2457,14 @@ describe("EditorCommandHandlers", function () {
             let expectedText = [
                 "function foo()",
                 "     Comment",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(1, 4), end: Pos(1, 12)});
 
             expectedText = [
                 "function foo()",
                 "    /* Comment*/",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(1, 6), end: Pos(1, 14)});
         });
@@ -2479,7 +2481,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -2493,7 +2495,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, Pos(1, 26));
@@ -2511,7 +2513,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(startingContent);
 
@@ -2525,7 +2527,7 @@ describe("EditorCommandHandlers", function () {
                 "        ",
                 "    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, Pos(1, 14));
             testToggleBlock(startingContent, Pos(1, 12));
@@ -2535,7 +2537,7 @@ describe("EditorCommandHandlers", function () {
             const content = [
                 "function foo()",
                 "    f(); // Comment",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(content);
 
@@ -2544,7 +2546,7 @@ describe("EditorCommandHandlers", function () {
             const expectedText = [
                 "function foo()",
                 "    f(); ///* Commen*/t",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(1, 13), end: Pos(1, 20)});
 
@@ -2556,7 +2558,7 @@ describe("EditorCommandHandlers", function () {
             const content = [
                 "function foo()",
                 "    f(); // Comment",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(content);
 
@@ -2565,7 +2567,7 @@ describe("EditorCommandHandlers", function () {
             const expectedText = [
                 "function foo()",
                 "    f(); ///* Comment*/",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(1, 13), end: Pos(1, 21)});
@@ -2578,7 +2580,7 @@ describe("EditorCommandHandlers", function () {
             const content = [
                 "function foo()",
                 "    f(); // Comment",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(content);
 
@@ -2587,7 +2589,7 @@ describe("EditorCommandHandlers", function () {
             const expectedText = [
                 "function foo()",
                 "    f(); /*// Comment*/",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(1, 11), end: Pos(1, 21)});
@@ -2600,7 +2602,7 @@ describe("EditorCommandHandlers", function () {
             const content = [
                 "function foo()",
                 "    // Comment",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(content);
 
@@ -2609,7 +2611,7 @@ describe("EditorCommandHandlers", function () {
             let expectedText = [
                 "function foo()",
                 "     Comment",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(1, 0), end: Pos(2, 0)});
@@ -2619,7 +2621,7 @@ describe("EditorCommandHandlers", function () {
                 "/*",
                 "     Comment",
                 "*/",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(2, 0), end: Pos(3, 0)});
         });
@@ -2629,7 +2631,7 @@ describe("EditorCommandHandlers", function () {
                 "function foo()",
                 "    // Comment",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(content);
 
@@ -2639,7 +2641,7 @@ describe("EditorCommandHandlers", function () {
                 "function foo()",
                 "     Comment",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(1, 0), end: Pos(2, 0)});
 
@@ -2649,7 +2651,7 @@ describe("EditorCommandHandlers", function () {
                 "     Comment",
                 "*/",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(2, 0), end: Pos(3, 0)});
         });
@@ -2659,7 +2661,7 @@ describe("EditorCommandHandlers", function () {
                 "function foo()",
                 "    // Comment",
                 "    // Comment 2",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(content);
 
@@ -2669,7 +2671,7 @@ describe("EditorCommandHandlers", function () {
                 "function foo()",
                 "     Comment",
                 "    // Comment 2",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(1, 0), end: Pos(2, 0)});
 
@@ -2679,7 +2681,7 @@ describe("EditorCommandHandlers", function () {
                 "     Comment",
                 "*/",
                 "    // Comment 2",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(2, 0), end: Pos(3, 0)});
         });
@@ -2689,7 +2691,7 @@ describe("EditorCommandHandlers", function () {
                 "function foo()",
                 "    // Comment",
                 "    /* Comment 2 */",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(content);
 
@@ -2699,7 +2701,7 @@ describe("EditorCommandHandlers", function () {
                 "function foo()",
                 "     Comment",
                 "    /* Comment 2 */",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(1, 0), end: Pos(2, 0)});
@@ -2710,7 +2712,7 @@ describe("EditorCommandHandlers", function () {
                 "     Comment",
                 "*/",
                 "    /* Comment 2 */",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(2, 0), end: Pos(3, 0)});
         });
@@ -2725,7 +2727,7 @@ describe("EditorCommandHandlers", function () {
                 "//        ",
                 "//    }",
                 "",
-                "}"
+                "}",
             ].join("\n");
             myEditor.setText(content);
 
@@ -2743,7 +2745,7 @@ describe("EditorCommandHandlers", function () {
                 "    }",
                 "*/",
                 "",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(2, 0), end: Pos(7, 0)});
         });
@@ -2766,7 +2768,7 @@ describe("EditorCommandHandlers", function () {
             "    ",
             "    // Final floating comment",
             "    ",
-            "}"
+            "}",
         ].join("\n");
 
         it("should line uncomment, multiline selection covers line comment plus whitespace", function () {
@@ -2789,7 +2791,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    // Final floating comment",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(1, 0), end: Pos(3, 4)});
@@ -2810,7 +2812,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    // Final floating comment",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(1, 2), end: Pos(3, 4)});
@@ -2836,7 +2838,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    // Final floating comment",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(2, 2), end: Pos(2, 8)});
@@ -2857,7 +2859,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    // Final floating comment",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(2, 4), end: Pos(2, 10)});
         });
@@ -2882,7 +2884,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    // Final floating comment",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(2, 2), end: Pos(2, 21)});
 
@@ -2902,7 +2904,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    // Final floating comment",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(2, 4), end: Pos(2, 23)});
         });
@@ -2927,7 +2929,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    // Final floating comment",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(7, 10), end: Pos(7, 22)});
@@ -2954,7 +2956,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    // Final floating comment",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(7, 11), end: Pos(7, 30)});
@@ -2981,7 +2983,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    // Final floating comment",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(7, 10), end: Pos(7, 30)});
@@ -3008,7 +3010,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    // Final floating comment",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(7, 2), end: Pos(7, 30)});
@@ -3037,7 +3039,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    // Final floating comment",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(5, 0), end: Pos(10, 0)});
@@ -3066,7 +3068,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "    // Final floating comment",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(11, 0), end: Pos(13, 0)});
@@ -3093,7 +3095,7 @@ describe("EditorCommandHandlers", function () {
                 "    ",
                 "     Final floating comment",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(11, 0), end: Pos(14, 0)});
 
@@ -3115,7 +3117,7 @@ describe("EditorCommandHandlers", function () {
                 "     Final floating comment",
                 "*/",
                 "    ",
-                "}"
+                "}",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(12, 0), end: Pos(15, 0)});
         });
@@ -3131,13 +3133,13 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
                 myEditor.setText(content);
 
                 myEditor.setSelections([
                     {start: Pos(1, 4), end: Pos(1, 4), primary: true},
-                    {start: Pos(3, 4), end: Pos(3, 12)}
+                    {start: Pos(3, 4), end: Pos(3, 12)},
                 ]);
 
                 // Line 1 should no longer have a line comment, and line 3 should have a block comment.
@@ -3149,11 +3151,11 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
                 testToggleBlock(expectedText, [
                     {start: Pos(1, 2), end: Pos(1, 2), primary: true, reversed: false},
-                    {start: Pos(3, 6), end: Pos(3, 14), primary: false, reversed: false}
+                    {start: Pos(3, 6), end: Pos(3, 14), primary: false, reversed: false},
                 ]);
 
                 expectedText = [
@@ -3164,11 +3166,11 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
                 testToggleBlock(expectedText, [
                     {start: Pos(1, 4), end: Pos(1, 4), primary: true, reversed: false},
-                    {start: Pos(3, 4), end: Pos(3, 12), primary: false, reversed: false}
+                    {start: Pos(3, 4), end: Pos(3, 12), primary: false, reversed: false},
                 ]);
             });
 
@@ -3182,13 +3184,13 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
                 myEditor.setText(content);
 
                 myEditor.setSelections([
                     {start: Pos(1, 4), end: Pos(1, 4), primary: true},
-                    {start: Pos(1, 6), end: Pos(1, 6)}
+                    {start: Pos(1, 6), end: Pos(1, 6)},
                 ]);
 
                 // Line 1 should no longer have a line comment
@@ -3200,11 +3202,11 @@ describe("EditorCommandHandlers", function () {
                     "        ",
                     "    }",
                     "",
-                    "}"
+                    "}",
                 ].join("\n");
                 testToggleBlock(expectedText, [
                     {start: Pos(1, 2), end: Pos(1, 2), primary: true, reversed: false},
-                    {start: Pos(1, 4), end: Pos(1, 4), primary: false, reversed: false}
+                    {start: Pos(1, 4), end: Pos(1, 4), primary: false, reversed: false},
                 ]);
 
                 // FIXME
@@ -3228,7 +3230,7 @@ describe("EditorCommandHandlers", function () {
             "",
             "/*span {",
             "    color: blue;",
-            "}*/"
+            "}*/",
         ].join("\n") + "\n";
 
         beforeEach(function () {
@@ -3245,7 +3247,7 @@ describe("EditorCommandHandlers", function () {
                 "",
                 "/*span {",
                 "    color: blue;",
-                "}*/"
+                "}*/",
             ].join("\n") + "\n";
 
             testToggleLine(expectedText, Pos(1, 6));
@@ -3262,7 +3264,7 @@ describe("EditorCommandHandlers", function () {
                 "",
                 "/*span {",
                 "    color: blue;",
-                "}*/"
+                "}*/",
             ].join("\n") + "\n";
 
             testToggleLine(expectedText, {start: Pos(1, 6), end: Pos(1, 11)});
@@ -3281,7 +3283,7 @@ describe("EditorCommandHandlers", function () {
                 "",
                 "/*span {",
                 "    color: blue;",
-                "}*/"
+                "}*/",
             ].join("\n") + "\n";
 
             testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(4, 0)});
@@ -3300,7 +3302,7 @@ describe("EditorCommandHandlers", function () {
                 "",
                 "/*span {",
                 "    color: blue;",
-                "}*/"
+                "}*/",
             ].join("\n") + "\n";
 
             testToggleLine(expectedText, {start: Pos(1, 3), end: Pos(2, 10)});  // range endpoints still align with same text
@@ -3317,7 +3319,7 @@ describe("EditorCommandHandlers", function () {
                 "",
                 "span {",
                 "    color: blue;",
-                "}"
+                "}",
             ].join("\n") + "\n";
 
             testToggleLine(expectedText, {start: Pos(4, 0), end: Pos(6, 1)});
@@ -3331,7 +3333,7 @@ describe("EditorCommandHandlers", function () {
                 "span {",
                 "    color: blue;",
                 "}",
-                "*/"
+                "*/",
             ].join("\n") + "\n";
             testToggleLine(expectedText, {start: Pos(5, 0), end: Pos(7, 1)});
         });
@@ -3346,7 +3348,7 @@ describe("EditorCommandHandlers", function () {
                 "",
                 "span {",
                 "    color: blue;",
-                "}"
+                "}",
             ].join("\n") + "\n";
             testToggleLine(expectedText, {start: Pos(4, 0), end: Pos(7, 0)});
 
@@ -3359,7 +3361,7 @@ describe("EditorCommandHandlers", function () {
                 "span {",
                 "    color: blue;",
                 "}",
-                "*/"
+                "*/",
             ].join("\n") + "\n";
             testToggleLine(expectedText, {start: Pos(5, 0), end: Pos(8, 0)});
         });
@@ -3374,7 +3376,7 @@ describe("EditorCommandHandlers", function () {
                 "",
                 "span {",
                 "    color: blue;",
-                "}"
+                "}",
             ].join("\n") + "\n";
 
             testToggleLine(expectedText, {start: Pos(4, 0), end: Pos(5, 8)});
@@ -3388,7 +3390,7 @@ describe("EditorCommandHandlers", function () {
                 "span {",
                 "    color: blue;",
                 "*/",
-                "}"
+                "}",
             ].join("\n") + "\n";
             testToggleLine(expectedText, {start: Pos(5, 0), end: Pos(6, 8)});
         });
@@ -3403,7 +3405,7 @@ describe("EditorCommandHandlers", function () {
                 "",
                 "span {",
                 "    color: blue;",
-                "}"
+                "}",
             ].join("\n") + "\n";
             testToggleLine(expectedText, {start: Pos(5, 0), end: Pos(5, 8)});
 
@@ -3414,7 +3416,7 @@ describe("EditorCommandHandlers", function () {
                 "",
                 "span {",
                 "/*    color: blue;*/",
-                "}"
+                "}",
             ].join("\n") + "\n";
             testToggleLine(expectedText, {start: Pos(5, 2), end: Pos(5, 10)});
         });
@@ -3429,7 +3431,7 @@ describe("EditorCommandHandlers", function () {
                 "",
                 "span {",
                 "    color: blue;",
-                "}"
+                "}",
             ].join("\n") + "\n";
             testToggleLine(expectedText, {start: Pos(5, 8), end: Pos(6, 1)});
 
@@ -3442,7 +3444,7 @@ describe("EditorCommandHandlers", function () {
                 "/*",
                 "    color: blue;",
                 "}",
-                "*/"
+                "*/",
             ].join("\n") + "\n";
             testToggleLine(expectedText, {start: Pos(6, 8), end: Pos(7, 1)});
         });
@@ -3459,7 +3461,7 @@ describe("EditorCommandHandlers", function () {
                 "",
                 "span {",
                 "    color: blue;",
-                "}"
+                "}",
             ].join("\n");
             testToggleLine(expectedText, {start: Pos(5, 8), end: Pos(6, 1)});
 
@@ -3471,7 +3473,7 @@ describe("EditorCommandHandlers", function () {
                 "span {",
                 "/*",
                 "    color: blue;",
-                "}*/"
+                "}*/",
             ].join("\n") + "\n";
             testToggleLine(expectedText, {start: Pos(6, 8), end: Pos(7, 1)});
         });
@@ -3486,7 +3488,7 @@ describe("EditorCommandHandlers", function () {
                 "",
                 "span {",
                 "    color: blue;",
-                "}"
+                "}",
             ].join("\n") + "\n";
             testToggleLine(expectedText, Pos(5, 4));
 
@@ -3497,7 +3499,7 @@ describe("EditorCommandHandlers", function () {
                 "",
                 "span {",
                 "/*    color: blue;*/",
-                "}"
+                "}",
             ].join("\n") + "\n";
             testToggleLine(expectedText, Pos(5, 6));
         });
@@ -3524,7 +3526,7 @@ describe("EditorCommandHandlers", function () {
             "        <p>Hello</p>",
             "        <p>World</p>",
             "    </body>",
-            "</html>"
+            "</html>",
         ].join("\n");
 
         beforeEach(function () {
@@ -3559,7 +3561,7 @@ describe("EditorCommandHandlers", function () {
                 "        <p>Hello</p>",
                 "        <p>World</p>",
                 "    </body>",
-                "</html>"
+                "</html>",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(1, 8), end: Pos(1, 14)});
@@ -3589,7 +3591,7 @@ describe("EditorCommandHandlers", function () {
                 "        <p>Hello</p>",
                 "        <p>World</p>",
                 "    </body>",
-                "</html>"
+                "</html>",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(4, 18), end: Pos(4, 34)});
@@ -3619,7 +3621,7 @@ describe("EditorCommandHandlers", function () {
                 "        <p>Hello</p>",
                 "        <p>World</p>",
                 "    </body>",
-                "</html>"
+                "</html>",
             ].join("\n");
 
             testToggleLine(expectedText, Pos(10, 2));
@@ -3653,7 +3655,7 @@ describe("EditorCommandHandlers", function () {
                 "        <p>Hello</p>",
                 "        <p>World</p>",
                 "    </body>",
-                "</html>"
+                "</html>",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(9, 0), end: Pos(14, 0)});
@@ -3685,7 +3687,7 @@ describe("EditorCommandHandlers", function () {
                 "        <p>Hello</p>",
                 "        <p>World</p>",
                 "    </body>",
-                "</html>"
+                "</html>",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(3, 0), end: Pos(8, 0)});
@@ -3710,7 +3712,7 @@ describe("EditorCommandHandlers", function () {
                 myEditor.setSelections([
                     {start: Pos(1, 4), end: Pos(1, 10)},
                     {start: Pos(4, 16), end: Pos(4, 32)},
-                    {start: Pos(8, 0), end: Pos(13, 0)}
+                    {start: Pos(8, 0), end: Pos(13, 0)},
                 ]);
 
                 const expectedText = [
@@ -3735,18 +3737,18 @@ describe("EditorCommandHandlers", function () {
                     "        <p>Hello</p>",
                     "        <p>World</p>",
                     "    </body>",
-                    "</html>"
+                    "</html>",
                 ].join("\n");
 
                 testToggleBlock(expectedText, [
                     {start: Pos(1, 8), end: Pos(1, 14), primary: false, reversed: false},
                     {start: Pos(4, 18), end: Pos(4, 34), primary: false, reversed: false},
-                    {start: Pos(9, 0), end: Pos(14, 0), primary: true, reversed: false}
+                    {start: Pos(9, 0), end: Pos(14, 0), primary: true, reversed: false},
                 ]);
                 testToggleBlock(htmlContent, [
                     {start: Pos(1, 4), end: Pos(1, 10), primary: false, reversed: false},
                     {start: Pos(4, 16), end: Pos(4, 32), primary: false, reversed: false},
-                    {start: Pos(8, 0), end: Pos(13, 0), primary: true, reversed: false}
+                    {start: Pos(8, 0), end: Pos(13, 0), primary: true, reversed: false},
                 ]);
             });
 
@@ -3755,7 +3757,7 @@ describe("EditorCommandHandlers", function () {
                 myEditor.setSelections([
                     {start: Pos(1, 4), end: Pos(1, 10)},
                     {start: Pos(4, 16), end: Pos(4, 32)},
-                    {start: Pos(10, 0), end: Pos(10, 0)}
+                    {start: Pos(10, 0), end: Pos(10, 0)},
                 ]);
 
                 const expectedText = [
@@ -3778,18 +3780,18 @@ describe("EditorCommandHandlers", function () {
                     "        <p>Hello</p>",
                     "        <p>World</p>",
                     "    </body>",
-                    "</html>"
+                    "</html>",
                 ].join("\n");
 
                 testToggleLine(expectedText, [
                     {start: Pos(1, 8), end: Pos(1, 14), primary: false, reversed: false},
                     {start: Pos(4, 18), end: Pos(4, 34), primary: false, reversed: false},
-                    {start: Pos(10, 2), end: Pos(10, 2), primary: true, reversed: false}
+                    {start: Pos(10, 2), end: Pos(10, 2), primary: true, reversed: false},
                 ]);
                 testToggleLine(htmlContent, [
                     {start: Pos(1, 4), end: Pos(1, 10), primary: false, reversed: false},
                     {start: Pos(4, 16), end: Pos(4, 32), primary: false, reversed: false},
-                    {start: Pos(10, 0), end: Pos(10, 0), primary: true, reversed: false}
+                    {start: Pos(10, 0), end: Pos(10, 0), primary: true, reversed: false},
                 ]);
             });
 
@@ -3798,7 +3800,7 @@ describe("EditorCommandHandlers", function () {
                 myEditor.setSelections([
                     {start: Pos(1, 0), end: Pos(2, 0)},
                     {start: Pos(5, 0), end: Pos(7, 0), reversed: true, primary: true},
-                    {start: Pos(8, 0), end: Pos(13, 0)}
+                    {start: Pos(8, 0), end: Pos(13, 0)},
                 ]);
 
                 const expectedText = [
@@ -3825,18 +3827,18 @@ describe("EditorCommandHandlers", function () {
                     "        <p>Hello</p>",
                     "        <p>World</p>",
                     "    </body>",
-                    "</html>"
+                    "</html>",
                 ].join("\n");
 
                 testToggleBlock(expectedText, [
                     {start: Pos(2, 0), end: Pos(3, 0), primary: false, reversed: false},
                     {start: Pos(7, 0), end: Pos(9, 0), primary: true, reversed: true},
-                    {start: Pos(11, 0), end: Pos(16, 0), primary: false, reversed: false}
+                    {start: Pos(11, 0), end: Pos(16, 0), primary: false, reversed: false},
                 ]);
                 testToggleBlock(htmlContent, [
                     {start: Pos(1, 0), end: Pos(2, 0), primary: false, reversed: false},
                     {start: Pos(5, 0), end: Pos(7, 0), primary: true, reversed: true},
-                    {start: Pos(8, 0), end: Pos(13, 0), primary: false, reversed: false}
+                    {start: Pos(8, 0), end: Pos(13, 0), primary: false, reversed: false},
                 ]);
             });
         });
@@ -3864,7 +3866,7 @@ describe("EditorCommandHandlers", function () {
             "        <p>Hello</p>",
             "        <p>World</p>",
             "    </body>",
-            "</html>"
+            "</html>",
         ].join("\n");
 
         beforeEach(function () {
@@ -3899,7 +3901,7 @@ describe("EditorCommandHandlers", function () {
                 "        <p>Hello</p>",
                 "        <p>World</p>",
                 "    </body>",
-                "</html>"
+                "</html>",
             ].join("\n");
             testToggleLine(expectedText, Pos(10, 0));
 
@@ -3930,7 +3932,7 @@ describe("EditorCommandHandlers", function () {
                 "        <!--<p>Hello</p>-->",
                 "        <p>World</p>",
                 "    </body>",
-                "</html>"
+                "</html>",
             ].join("\n");
             testToggleLine(expectedText, Pos(16, 12));
 
@@ -3951,7 +3953,7 @@ describe("EditorCommandHandlers", function () {
                 myEditor.setSelections([
                     {start: Pos(1, 4), end: Pos(1, 10)},
                     {start: Pos(4, 16), end: Pos(4, 32)},
-                    {start: Pos(10, 0), end: Pos(10, 0)}
+                    {start: Pos(10, 0), end: Pos(10, 0)},
                 ]);
 
                 const expectedText = [
@@ -3974,18 +3976,18 @@ describe("EditorCommandHandlers", function () {
                     "        <p>Hello</p>",
                     "        <p>World</p>",
                     "    </body>",
-                    "</html>"
+                    "</html>",
                 ].join("\n");
 
                 testToggleLine(expectedText, [
                     {start: Pos(1, 8), end: Pos(1, 14), reversed: false, primary: false},
                     {start: Pos(4, 18), end: Pos(4, 34), reversed: false, primary: false},
-                    {start: Pos(10, 0), end: Pos(10, 0), reversed: false, primary: true}
+                    {start: Pos(10, 0), end: Pos(10, 0), reversed: false, primary: true},
                 ]);
                 testToggleLine(htmlContent, [
                     {start: Pos(1, 4), end: Pos(1, 10), reversed: false, primary: false},
                     {start: Pos(4, 16), end: Pos(4, 32), reversed: false, primary: false},
-                    {start: Pos(10, 0), end: Pos(10, 0), reversed: false, primary: true}
+                    {start: Pos(10, 0), end: Pos(10, 0), reversed: false, primary: true},
                 ]);
             });
         });
@@ -3996,7 +3998,7 @@ describe("EditorCommandHandlers", function () {
         CodeMirror.extendMode("coffeescript", {
             "blockCommentStart": "###",
             "blockCommentEnd": "###",
-            "lineComment": "#"
+            "lineComment": "#",
         });
 
         const coffeeContent = [
@@ -4004,7 +4006,7 @@ describe("EditorCommandHandlers", function () {
             "bar = true",
             "baz = \"hello\"",
             "number = -42",
-            "if bar square = (x) -> x * x"
+            "if bar square = (x) -> x * x",
         ].join("\n");
 
         beforeEach(function () {
@@ -4019,7 +4021,7 @@ describe("EditorCommandHandlers", function () {
                 "bar = true",
                 "ba###z = \"hello\"",
                 "numbe###r = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(2, 5), end: Pos(3, 5)});
@@ -4036,7 +4038,7 @@ describe("EditorCommandHandlers", function () {
                 "baz = \"hello\"",
                 "###",
                 "number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
 
             testToggleBlock(expectedText, {start: Pos(2, 0), end: Pos(4, 0)});
@@ -4051,7 +4053,7 @@ describe("EditorCommandHandlers", function () {
                 "baz = \"hello\"",
                 "###",
                 "number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             myEditor.setText(expectedText);
             myEditor.setSelection(Pos(1, 0), Pos(5, 0));
@@ -4068,7 +4070,7 @@ describe("EditorCommandHandlers", function () {
                 "baz = \"hello\"",
                 "###",
                 "number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             myEditor.setText(expectedText);
             myEditor.setSelection(Pos(1, 0), Pos(2, 0));
@@ -4080,7 +4082,7 @@ describe("EditorCommandHandlers", function () {
                 "######bar = true",
                 "baz = \"hello\"",
                 "number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(1, 3), end: Pos(1, 3)});
         });
@@ -4093,7 +4095,7 @@ describe("EditorCommandHandlers", function () {
                 "baz = \"hello\"",
                 "###",
                 "number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             myEditor.setText(expectedText);
             myEditor.setSelection(Pos(4, 0), Pos(5, 0));
@@ -4105,7 +4107,7 @@ describe("EditorCommandHandlers", function () {
                 "bar = true",
                 "baz = \"hello\"",
                 "######number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(3, 3), end: Pos(3, 3)});
         });
@@ -4120,7 +4122,7 @@ describe("EditorCommandHandlers", function () {
                 "number = -42",
                 "###",
                 "if bar square = (x) -> x * x",
-                "###"
+                "###",
             ].join("\n");
             myEditor.setText(expectedText);
             myEditor.setSelection(Pos(2, 0), Pos(7, 0));
@@ -4170,7 +4172,7 @@ describe("EditorCommandHandlers", function () {
                 "#baz = \"hello\"",
                 "###",
                 "number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             myEditor.setText(content);
             myEditor.setSelection(Pos(3, 0), Pos(4, 0));
@@ -4180,7 +4182,7 @@ describe("EditorCommandHandlers", function () {
                 "bar = true",
                 "#baz = \"hello\"",
                 "number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(2, 0), end: Pos(3, 0)});
             testToggleBlock(coffeeContent, {start: Pos(2, 0), end: Pos(3, 0)});
@@ -4196,7 +4198,7 @@ describe("EditorCommandHandlers", function () {
                 "number = -42",
                 "###",
                 "if bar square = (x) -> x * x",
-                "###"
+                "###",
             ].join("\n");
             myEditor.setText(content);
             myEditor.setSelection(Pos(7, 0), Pos(8, 0));
@@ -4208,7 +4210,7 @@ describe("EditorCommandHandlers", function () {
                 "bar = true",
                 "baz = \"hello\"",
                 "number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             testToggleBlock(expectedText + "\n", {start: Pos(6, 0), end: Pos(7, 0)});
             testToggleBlock(content + "\n", {start: Pos(7, 0), end: Pos(8, 0)});
@@ -4224,7 +4226,7 @@ describe("EditorCommandHandlers", function () {
                 "#number = -42",
                 "###",
                 "if bar square = (x) -> x * x",
-                "###"
+                "###",
             ].join("\n");
             myEditor.setText(content);
             myEditor.setSelection(Pos(7, 0), Pos(8, 0));
@@ -4236,7 +4238,7 @@ describe("EditorCommandHandlers", function () {
                 "#bar = true",
                 "#baz = \"hello\"",
                 "#number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             testToggleBlock(expectedText + "\n", {start: Pos(6, 0), end: Pos(7, 0)});
             testToggleBlock(content + "\n", {start: Pos(7, 0), end: Pos(8, 0)});
@@ -4248,7 +4250,7 @@ describe("EditorCommandHandlers", function () {
                 "bar = true",
                 "###baz = \"hello\"###",
                 "",
-                "#number = -42"
+                "#number = -42",
             ].join("\n");
 
             myEditor.setText(text);
@@ -4259,7 +4261,7 @@ describe("EditorCommandHandlers", function () {
                 "bar = true",
                 "###baz = \"hello\"###",
                 "######",
-                "#number = -42"
+                "#number = -42",
             ].join("\n");
 
             testToggleBlock(expectedText, Pos(3, 3));
@@ -4272,7 +4274,7 @@ describe("EditorCommandHandlers", function () {
                 "###bar = true",
                 "",
                 "number = -42###",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
 
             myEditor.setText(text);
@@ -4283,7 +4285,7 @@ describe("EditorCommandHandlers", function () {
                 "bar = true",
                 "",
                 "number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             testToggleBlock(expectedText, Pos(2, 0));
 
@@ -4292,7 +4294,7 @@ describe("EditorCommandHandlers", function () {
                 "bar = true",
                 "######",
                 "number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             testToggleBlock(expectedText, Pos(2, 3));
         });
@@ -4305,7 +4307,7 @@ describe("EditorCommandHandlers", function () {
                 "baz = \"hello\"",
                 "###",
                 "#number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             myEditor.setText(text);
             myEditor.setSelection(Pos(5, 0), Pos(6, 0));
@@ -4317,7 +4319,7 @@ describe("EditorCommandHandlers", function () {
                 "baz = \"hello\"",
                 "###",
                 "number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(5, 0), end: Pos(6, 0)});
 
@@ -4330,7 +4332,7 @@ describe("EditorCommandHandlers", function () {
                 "###",
                 "number = -42",
                 "###",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             testToggleBlock(expectedText, {start: Pos(6, 0), end: Pos(7, 0)});
         });
@@ -4341,7 +4343,7 @@ describe("EditorCommandHandlers", function () {
                 "bar = true",
                 "###baz = \"hello\"###",
                 "number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             myEditor.setText(text);
             myEditor.setSelection(Pos(2, 0), Pos(2, 5));
@@ -4351,7 +4353,7 @@ describe("EditorCommandHandlers", function () {
                 "bar = true",
                 "####baz = \"hello\"###",
                 "number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             testToggleLine(expectedText, {start: Pos(2, 0), end: Pos(2, 6)});
 
@@ -4360,7 +4362,7 @@ describe("EditorCommandHandlers", function () {
                 "bar = true",
                 "#####baz = \"hello\"###",
                 "number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             testToggleLine(expectedText, {start: Pos(2, 0), end: Pos(2, 7)});
         });
@@ -4373,7 +4375,7 @@ describe("EditorCommandHandlers", function () {
                 "baz = \"hello\"",
                 "###",
                 "#number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             myEditor.setText(text);
 
@@ -4384,7 +4386,7 @@ describe("EditorCommandHandlers", function () {
                 "baz = \"hello\"",
                 "###",
                 "#number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             myEditor.setSelection(Pos(0, 0), Pos(2, 0));
             testToggleLine(expectedText, {start: Pos(0, 0), end: Pos(2, 0)});
@@ -4396,7 +4398,7 @@ describe("EditorCommandHandlers", function () {
                 "baz = \"hello\"",
                 "###",
                 "#number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             testToggleLine(expectedText, {start: Pos(0, 0), end: Pos(2, 0)});
         });
@@ -4409,7 +4411,7 @@ describe("EditorCommandHandlers", function () {
                 "baz = \"hello\"",
                 "###",
                 "#number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
 
             myEditor.setText(content);
@@ -4422,7 +4424,7 @@ describe("EditorCommandHandlers", function () {
                 "baz = \"hello\"",
                 "####",
                 "##number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             testToggleLine(expectedText, {start: Pos(4, 0), end: Pos(6, 0)});
 
@@ -4433,7 +4435,7 @@ describe("EditorCommandHandlers", function () {
                 "baz = \"hello\"",
                 "#####",
                 "###number = -42",
-                "if bar square = (x) -> x * x"
+                "if bar square = (x) -> x * x",
             ].join("\n");
             testToggleLine(expectedText, {start: Pos(4, 0), end: Pos(6, 0)});
         });

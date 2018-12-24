@@ -30,7 +30,7 @@ export namespace Document {
     function adjustPosForChange(pos, textLines, start, end) {
         // Same as CodeMirror.adjustForChange(), but that's a private function
         // and Marijn would rather not expose it publicly.
-        var change = { text: textLines, from: start, to: end };
+        const change = { text: textLines, from: start, to: end };
 
         if (CodeMirror.cmpPos(pos, start) < 0) {
             return pos;
@@ -39,8 +39,8 @@ export namespace Document {
             return CodeMirror.changeEnd(change);
         }
 
-        var line = pos.line + change.text.length - (change.to.line - change.from.line) - 1,
-            ch = pos.ch;
+        const line = pos.line + change.text.length - (change.to.line - change.from.line) - 1;
+        let ch = pos.ch;
         if (pos.line === change.to.line) {
             ch += CodeMirror.changeEnd(change).ch - change.to.ch;
         }
@@ -59,21 +59,23 @@ export namespace Document {
         // Sort the edits backwards, so we don't have to adjust the edit positions as we go along
         // (though we do have to adjust the selection positions).
         edits.sort(function (editDesc1, editDesc2) {
-            var edit1 = (Array.isArray(editDesc1.edit) ? editDesc1.edit[0] : editDesc1.edit),
-                edit2 = (Array.isArray(editDesc2.edit) ? editDesc2.edit[0] : editDesc2.edit);
+            const edit1 = (Array.isArray(editDesc1.edit) ? editDesc1.edit[0] : editDesc1.edit);
+            const edit2 = (Array.isArray(editDesc2.edit) ? editDesc2.edit[0] : editDesc2.edit);
             // Treat all no-op edits as if they should happen before all other edits (the order
             // doesn't really matter, as long as they sort out of the way of the real edits).
             if (!edit1) {
                 return -1;
-            } else if (!edit2) {
-                return 1;
-            } else {
-                return CodeMirror.cmpPos(edit2.start, edit1.start);
             }
+
+            if (!edit2) {
+                return 1;
+            }
+
+            return CodeMirror.cmpPos(edit2.start, edit1.start);
         });
 
         // Pull out the selections, in the same order as the edits.
-        var result = _.cloneDeep(_.map(edits, "selection"));
+        let result = _.cloneDeep(_.map(edits, "selection"));
 
         // Preflight the edits to specify "end" if unspecified and make sure they don't overlap.
         // (We don't want to do it during the actual edits, since we don't want to apply some of
@@ -85,7 +87,7 @@ export namespace Document {
                         edit.end = edit.start;
                     }
                     if (index > 0) {
-                        var prevEditGroup = edits[index - 1].edit;
+                        const prevEditGroup = edits[index - 1].edit;
                         // The edits are in reverse order, so we want to make sure this edit ends
                         // before any of the previous ones start.
                         oneOrEach(prevEditGroup, function (prevEdit) {
@@ -110,7 +112,7 @@ export namespace Document {
 
                         // Fix up all the selections *except* the one(s) related to this edit list that
                         // are not "before-edit" selections.
-                        var textLines = edit.text.split("\n");
+                        const textLines = edit.text.split("\n");
                         _.each(result, function (selections, selIndex) {
                             if (selections) {
                                 oneOrEach(selections, function (sel) {

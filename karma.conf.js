@@ -1,5 +1,6 @@
 // Karma configuration
 // Generated on Thu Aug 16 2018 13:54:10 GMT+0200 (ora legale Europa occidentale)
+"use strict";
 
 module.exports = function(config) {
     const configuration = {
@@ -59,7 +60,7 @@ module.exports = function(config) {
         browsers: ["Chrome"],
 
         customLaunchers: {
-            Chrome_travis_ci: {
+            ChromeHeadlessCI: {
                 base: "ChromeHeadless",
                 flags: ["--no-sandbox"]
             }
@@ -75,7 +76,7 @@ module.exports = function(config) {
     };
 
     if (process.env.TRAVIS) {
-        configuration.browsers = ["Chrome_travis_ci"];
+        configuration.browsers = ["ChromeHeadlessCI"];
     }
 
     config.set(configuration);

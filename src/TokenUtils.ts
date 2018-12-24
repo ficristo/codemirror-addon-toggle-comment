@@ -31,7 +31,7 @@ import * as _ from "lodash";
 import * as CodeMirror from "codemirror";
 
 export module TokenUtils {
-    var cache;
+    let cache;
 
 
     function _clearCache(cm?) {
@@ -50,14 +50,14 @@ export module TokenUtils {
     function _manageCache(cm, line) {
         if (!cache || !cache.tokens || cache.line !== line || cache.cm !== cm) {
             // Cache is no longer matching -> Update
-            var tokens = cm.getLineTokens(line, false);
+            const tokens = cm.getLineTokens(line, false);
             // Add empty beginning-of-line token for backwards compatibility
             tokens.unshift(cm.getTokenAt({line: line, ch: 0}, false));
             cache = {
                 cm: cm,
                 line: line,
                 timeStamp: Date.now(),
-                tokens: tokens
+                tokens: tokens,
             };
             cm.off("changes", _clearCache);
             cm.on("changes", _clearCache);
@@ -77,13 +77,13 @@ export module TokenUtils {
             _clearCache(); // reset cache
             return cm.getTokenAt(pos, precise);
         }
-        var cachedTokens    = _manageCache(cm, pos.line),
-            tokenIndex      = _.sortedIndex(cachedTokens, {end: pos.ch}), // binary search is faster for long arrays
-            token           = cachedTokens[tokenIndex];
+        const cachedTokens    = _manageCache(cm, pos.line);
+        const tokenIndex      = _.sortedIndex(cachedTokens, {end: pos.ch}); // binary search is faster for long arrays
+        const token           = cachedTokens[tokenIndex];
         return token || cm.getTokenAt(pos, precise); // fall back to CMs getTokenAt, for example in an empty line
     }
 
-   /**
+    /**
      * Creates a context object for the given editor and position, suitable for passing to the
      * move functions.
      * @param {!CodeMirror} cm
@@ -94,7 +94,7 @@ export module TokenUtils {
         return {
             "editor": cm,
             "pos": pos,
-            "token": cm.getTokenAt(pos, true)
+            "token": cm.getTokenAt(pos, true),
         };
     }
 
@@ -140,7 +140,7 @@ export module TokenUtils {
      * @return {boolean} whether the context changed
      */
     export function moveNextToken(ctx, precise) {
-        var eol = ctx.editor.getLine(ctx.pos.line).length;
+        const eol = ctx.editor.getLine(ctx.pos.line).length;
         if (precise === undefined) {
             precise = true;
         }
@@ -164,11 +164,11 @@ export module TokenUtils {
      * @return {boolean} true if moveNextToken() would return false without changing pos
      */
     export function isAtEnd(ctx) {
-        var eol = ctx.editor.getLine(ctx.pos.line).length;
+        const eol = ctx.editor.getLine(ctx.pos.line).length;
         return (ctx.pos.ch >= eol || ctx.token.end >= eol) && (ctx.pos.line >= ctx.editor.lineCount() - 1);
     }
 
-   /**
+    /**
      * Moves the given context in the given direction, skipping any whitespace it hits.
      * @param {function} moveFxn the function to move the context
      * @param {!{editor:!CodeMirror, pos:!{ch:number, line:number}, token:Object}} ctx
@@ -192,7 +192,7 @@ export module TokenUtils {
      * @return {number}
      */
     export function offsetInToken(ctx) {
-        var offset = ctx.pos.ch - ctx.token.start;
+        const offset = ctx.pos.ch - ctx.token.start;
         if (offset < 0) {
             console.log("CodeHintUtils: _offsetInToken - Invalid context: pos not in the current token!");
         }
@@ -208,14 +208,13 @@ export module TokenUtils {
      */
     export function getModeAt(cm, pos, precise?) {
         precise = precise || true;
-        var modeData = cm.getMode(),
-            name;
+        let modeData = cm.getMode();
 
         if (modeData.innerMode) {
             modeData = CodeMirror.innerMode(modeData, getTokenAt(cm, pos, precise).state).mode;
         }
 
-        name = modeData.name === "xml" ? modeData.configuration : modeData.name;
+        const name = modeData.name === "xml" ? modeData.configuration : modeData.name;
 
         return {mode: modeData, name: name};
     }

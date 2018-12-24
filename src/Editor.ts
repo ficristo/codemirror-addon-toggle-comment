@@ -14,17 +14,19 @@ export class Editor {
     }
 
     getModeForRange(start, end, knownMixed?) {
-        var outerMode = this._codeMirror.getMode(),
-            startMode = TokenUtils.getModeAt(this._codeMirror, start),
-            endMode = TokenUtils.getModeAt(this._codeMirror, end);
+        const outerMode = this._codeMirror.getMode();
+        const startMode = TokenUtils.getModeAt(this._codeMirror, start);
+        const endMode = TokenUtils.getModeAt(this._codeMirror, end);
         if (!knownMixed && outerMode.name === startMode.name) {
             // Mode does not vary: just use the editor-wide mode name
             return this._codeMirror.getOption("mode");
-        } else if (!startMode || !endMode || startMode.name !== endMode.name) {
-            return null;
-        } else {
-            return startMode;
         }
+
+        if (!startMode || !endMode || startMode.name !== endMode.name) {
+            return null;
+        }
+
+        return startMode;
     }
 
     setCursorPos(line, ch) {
@@ -40,7 +42,8 @@ export class Editor {
     }
 
     setSelections(selections) {
-        var primIndex = selections.length - 1, options;
+        let primIndex = selections.length - 1;
+        const options = undefined;
         this._codeMirror.setSelections(selections.map(function (sel, index) {
             if (sel.primary) {
                 primIndex = index;
@@ -50,21 +53,22 @@ export class Editor {
     }
 
     convertToLineSelections(selections, options) {
-        var self = this;
+        const self = this;
         options = options || {};
         _.defaults(options, { expandEndAtStartOfLine: false, mergeAdjacent: true });
 
         // Combine adjacent lines with selections so they don't collide with each other, as they would
         // if we did them individually.
-        var combinedSelections = [], prevSel;
+        const combinedSelections = [];
+        let prevSel;
         _.each(selections, function (sel) {
-            var newSel = _.cloneDeep(sel);
+            const newSel = _.cloneDeep(sel);
 
             // Adjust selection to encompass whole lines.
             newSel.start.ch = 0;
             // The end of the selection becomes the start of the next line, if it isn't already
             // or if expandEndAtStartOfLine is set.
-            var hasSelection = (newSel.start.line !== newSel.end.line) || (newSel.start.ch !== newSel.end.ch);
+            const hasSelection = (newSel.start.line !== newSel.end.line) || (newSel.start.ch !== newSel.end.ch);
             if (options.expandEndAtStartOfLine || !hasSelection || newSel.end.ch !== 0) {
                 newSel.end = {line: newSel.end.line + 1, ch: 0};
             }
@@ -87,10 +91,10 @@ export class Editor {
     getSelectedText(allSelections) {
         if (allSelections) {
             return this._codeMirror.getSelection();
-        } else {
-            var sel = this.getSelection();
-            return this._codeMirror.getRange(sel.start, sel.end);
         }
+
+        const sel = this.getSelection();
+        return this._codeMirror.getRange(sel.start, sel.end);
     }
 
     private _copyPos(pos) {
@@ -102,12 +106,12 @@ export class Editor {
             if (endInclusive) {
                 return (start.line < pos.line || start.ch <= pos.ch) &&  // inclusive
                     (end.line > pos.line   || end.ch >= pos.ch);      // inclusive
-            } else {
-                return (start.line < pos.line || start.ch <= pos.ch) &&  // inclusive
-                    (end.line > pos.line   || end.ch > pos.ch);       // exclusive
             }
 
+            return (start.line < pos.line || start.ch <= pos.ch) &&  // inclusive
+                (end.line > pos.line   || end.ch > pos.ch);       // exclusive
         }
+
         return false;
     }
 
@@ -118,9 +122,9 @@ export class Editor {
     private _normalizeRange(anchorPos, headPos) {
         if (headPos.line < anchorPos.line || (headPos.line === anchorPos.line && headPos.ch < anchorPos.ch)) {
             return {start: this._copyPos(headPos), end: this._copyPos(anchorPos), reversed: true};
-        } else {
-            return {start: this._copyPos(anchorPos), end: this._copyPos(headPos), reversed: false};
         }
+
+        return {start: this._copyPos(anchorPos), end: this._copyPos(headPos), reversed: false};
     }
 
     getSelection() {
@@ -128,10 +132,10 @@ export class Editor {
     }
 
     getSelections() {
-        var primarySel = this.getSelection();
-        var self = this;
+        const primarySel = this.getSelection();
+        const self = this;
         return _.map(this._codeMirror.listSelections(), function (sel) {
-            var result = self._normalizeRange(sel.anchor, sel.head);
+            const result = self._normalizeRange(sel.anchor, sel.head);
             if (result.start.line === primarySel.start.line && result.start.ch === primarySel.start.ch &&
                     result.end.line === primarySel.end.line && result.end.ch === primarySel.end.ch) {
                 (<any>result).primary = true;
@@ -151,7 +155,7 @@ export class Editor {
         } else if (which === "end") {
             which = "to";
         }
-        var cursor = this._copyPos(this._codeMirror.getCursor(which));
+        const cursor = this._copyPos(this._codeMirror.getCursor(which));
 
         if (expandTabs) {
             cursor.ch = this.getColOffset(cursor);
@@ -160,10 +164,10 @@ export class Editor {
     }
 
     getColOffset(pos) {
-        var line    = this._codeMirror.getRange({line: pos.line, ch: 0}, pos),
-            tabSize = null,
-            column  = 0,
-            i;
+        const line  = this._codeMirror.getRange({line: pos.line, ch: 0}, pos);
+        let tabSize = null;
+        let column  = 0;
+        let i;
 
         for (i = 0; i < line.length; i++) {
             if (line[i] === "\t") {

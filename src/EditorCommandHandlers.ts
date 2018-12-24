@@ -46,7 +46,7 @@ export interface CommentOptions {
 const nonWS = /[^\s\u00a0]/;
 
 function getMode<T>(cm: CodeMirror.Doc & CodeMirror.Editor, pos: CodeMirror.Position): CodeMirror.Mode<T> {
-    var mode = cm.getMode();
+    const mode = cm.getMode();
     return mode.useInnerComments === false || !mode.innerMode ? mode : cm.getModeAt(pos);
 }
 
@@ -59,11 +59,12 @@ function getMode<T>(cm: CodeMirror.Doc & CodeMirror.Editor, pos: CodeMirror.Posi
  * @return {RegExp}
  */
 function _createSpecialLineExp(lineSyntax: string, blockSyntax: string) {
-    var i, character, escapedCharacter,
-        subExps   = [],
-        prevChars = "";
+    let character;
+    let escapedCharacter;
+    const subExps = [];
+    let prevChars = "";
 
-    for (i = lineSyntax.length; i < blockSyntax.length; i++) {
+    for (let i = lineSyntax.length; i < blockSyntax.length; i++) {
         character = blockSyntax.charAt(i);
         escapedCharacter = _.escapeRegExp(character);
         subExps.push(prevChars + "[^" + escapedCharacter + "]");
@@ -84,7 +85,9 @@ function _createSpecialLineExp(lineSyntax: string, blockSyntax: string) {
  * @return {Array.<RegExp>}
  */
 function _createLineExpressions(prefixes: Array<string>, blockPrefix: string, blockSuffix: string) {
-    var lineExp = [], escapedPrefix, nothingPushed;
+    const lineExp = [];
+    let escapedPrefix;
+    let nothingPushed;
 
     prefixes.forEach(function (prefix) {
         escapedPrefix = _.escapeRegExp(prefix);
@@ -129,7 +132,7 @@ function _matchExpressions(string: string, expressions): boolean {
  * @return {string}
  */
 function _getLinePrefix(string: string, expressions, prefixes: Array<string>) {
-    var result = null;
+    let result = null;
     expressions.forEach(function (exp, index) {
         if (string.match(exp) && ((result && result.length < prefixes[index].length) || !result)) {
             result = prefixes[index];
@@ -149,11 +152,10 @@ function _getLinePrefix(string: string, expressions, prefixes: Array<string>) {
  * @return {boolean} true if there is at least one uncommented line
  */
 function _containsNotLineComment(editor: Editor, startLine: number, endLine: number, lineExp): boolean {
-    var i, line,
-        containsNotLineComment = false;
+    let containsNotLineComment = false;
 
-    for (i = startLine; i <= endLine; i++) {
-        line = editor._codeMirror.getLine(i);
+    for (let i = startLine; i <= endLine; i++) {
+        const line = editor._codeMirror.getLine(i);
         // A line is commented out if it starts with 0-N whitespace chars, then a line comment prefix
         if (line.match(/\S/) && !_matchExpressions(line, lineExp)) {
             containsNotLineComment = true;
@@ -189,12 +191,12 @@ function _containsNotLineComment(editor: Editor, startLine: number, endLine: num
  *      An edit description suitable for including in the edits array passed to `Document.doMultipleEdits()`.
  */
 function _getLineCommentPrefixEdit(editor: Editor, prefixes: Array<string>, blockPrefix: string, blockSuffix: string, lineSel, options: CommentOptions) {
-    var sel         = lineSel.selectionForEdit,
-        trackedSels = lineSel.selectionsToTrack,
-        lineExp     = _createLineExpressions(prefixes, blockPrefix, blockSuffix),
-        startLine   = sel.start.line,
-        endLine     = sel.end.line,
-        editGroup   = [];
+    const sel         = lineSel.selectionForEdit;
+    const trackedSels = lineSel.selectionsToTrack;
+    const lineExp     = _createLineExpressions(prefixes, blockPrefix, blockSuffix);
+    const startLine   = sel.start.line;
+    let endLine       = sel.end.line;
+    const editGroup   = [];
 
     // In full-line selection, cursor pos is start of next line - but don't want to modify that line
     if (sel.end.ch === 0) {
@@ -204,27 +206,25 @@ function _getLineCommentPrefixEdit(editor: Editor, prefixes: Array<string>, bloc
     // Decide if we're commenting vs. un-commenting
     // Are there any non-blank lines that aren't commented out? (We ignore blank lines because
     // some editors like Sublime don't comment them out)
-    var i, line, prefix, commentI,
-        containsNotLineComment = _containsNotLineComment(editor, startLine, endLine, lineExp);
+    const containsNotLineComment = _containsNotLineComment(editor, startLine, endLine, lineExp);
 
     if (containsNotLineComment) {
-        var firstCharPosition,
-            baseString = null,
-            text,
-            commentString = prefixes[0];
+        const commentString = prefixes[0];
+        let baseString = null;
 
         if (options.indent) {
-            for (i = startLine; i <= endLine; i++) {
-                line = editor._codeMirror.getLine(i);
-                var whitespace = line.slice(0, _firstNotWs(line));
+            for (let i = startLine; i <= endLine; i++) {
+                const line = editor._codeMirror.getLine(i);
+                const whitespace = line.slice(0, _firstNotWs(line));
                 if (baseString === null || (whitespace.length > 0 && baseString.length > whitespace.length)) {
                     baseString = whitespace;
                 }
             }
 
-            for (i = startLine; i <= endLine; i++) {
-                line = editor._codeMirror.getLine(i);
-                firstCharPosition = line.search(nonWS);
+            for (let i = startLine; i <= endLine; i++) {
+                const line = editor._codeMirror.getLine(i);
+                const firstCharPosition = line.search(nonWS);
+                let text;
                 if (firstCharPosition === -1) {
                     if (line.length === 0) {
                         text = baseString + commentString;
@@ -249,7 +249,7 @@ function _getLineCommentPrefixEdit(editor: Editor, prefixes: Array<string>, bloc
                 }
             }
         } else {
-            for (i = startLine; i <= endLine; i++) {
+            for (let i = startLine; i <= endLine; i++) {
                 editGroup.push({text: commentString, start: {line: i, ch: 0}});
             }
         }
@@ -265,12 +265,12 @@ function _getLineCommentPrefixEdit(editor: Editor, prefixes: Array<string>, bloc
         });
     } else {
         // Uncomment - remove the prefix on each line (if any)
-        for (i = startLine; i <= endLine; i++) {
-            line   = editor._codeMirror.getLine(i);
-            prefix = _getLinePrefix(line, lineExp, prefixes);
+        for (let i = startLine; i <= endLine; i++) {
+            const line   = editor._codeMirror.getLine(i);
+            const prefix = _getLinePrefix(line, lineExp, prefixes);
 
             if (prefix) {
-                commentI = line.indexOf(prefix);
+                const commentI = line.indexOf(prefix);
                 editGroup.push({text: "", start: {line: i, ch: commentI}, end: {line: i, ch: commentI + prefix.length}});
             }
         }
@@ -298,7 +298,7 @@ function _getLineCommentPrefixEdit(editor: Editor, prefixes: Array<string>, bloc
  */
 function _isPrevTokenABlockComment(ctx, prefix: string, suffix: string, prefixExp: RegExp, suffixExp: RegExp, lineExp) {
     // Start searching from the previous token
-    var result = TokenUtils.moveSkippingWhitespace(TokenUtils.movePrevToken, ctx);
+    let result = TokenUtils.moveSkippingWhitespace(TokenUtils.movePrevToken, ctx);
 
     // Look backwards until we find a none line comment token
     while (result && _matchExpressions(ctx.token.string, lineExp)) {
@@ -310,14 +310,16 @@ function _isPrevTokenABlockComment(ctx, prefix: string, suffix: string, prefixEx
         // If it doesnt matches either prefix or suffix, we know is a block comment
         if (!ctx.token.string.match(prefixExp) && !ctx.token.string.match(suffixExp)) {
             return true;
+        }
+
         // We found a line with just a block comment delimiter, but we can't tell which one it is, so we will
         // keep searching recursively and return the opposite value
-        } else if (prefix === suffix && ctx.token.string.length === prefix.length) {
+        if (prefix === suffix && ctx.token.string.length === prefix.length) {
             return !_isPrevTokenABlockComment(ctx, prefix, suffix, prefixExp, suffixExp, lineExp);
-        // We can just now the result by checking if the string matches the prefix
-        } else {
-            return ctx.token.string.match(prefixExp);
         }
+
+        // We can just now the result by checking if the string matches the prefix
+        return ctx.token.string.match(prefixExp);
     }
     return false;
 }
@@ -335,7 +337,7 @@ function _firstNotWs(text: string) {
         return 0;
     }
 
-    var found = text.search(/\S|$/);
+    const found = text.search(/\S|$/);
     return found === -1 ? 0 : found;
 }
 
@@ -368,25 +370,23 @@ function _firstNotWs(text: string) {
  *      An edit description suitable for including in the edits array passed to `Document.doMultipleEdits()`.
  */
 function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix: string, linePrefixes, sel, selectionsToTrack, command: string, options: CommentOptions) {
-    var ctx            = TokenUtils.getInitialContext(editor._codeMirror, {line: sel.start.line, ch: sel.start.ch}),
-        selEndIndex    = editor.indexFromPos(sel.end),
-        lineExp        = _createLineExpressions(linePrefixes, prefix, suffix),
-        prefixExp      = new RegExp("^" + _.escapeRegExp(prefix), "g"),
-        suffixExp      = new RegExp(_.escapeRegExp(suffix) + "$", "g"),
-        prefixPos      = null,
-        suffixPos      = null,
-        commentAtStart = true,
-        isBlockComment = false,
-        canComment     = false,
-        invalidComment = false,
-        lineUncomment  = false,
-        result         = true,
-        editGroup      = [],
-        edit;
+    let ctx            = TokenUtils.getInitialContext(editor._codeMirror, {line: sel.start.line, ch: sel.start.ch});
+    const selEndIndex  = editor.indexFromPos(sel.end);
+    const lineExp      = _createLineExpressions(linePrefixes, prefix, suffix);
+    const prefixExp    = new RegExp("^" + _.escapeRegExp(prefix), "g");
+    const suffixExp    = new RegExp(_.escapeRegExp(suffix) + "$", "g");
+    let prefixPos      = null;
+    let suffixPos      = null;
+    let commentAtStart = true;
+    let isBlockComment = false;
+    let canComment     = false;
+    let invalidComment = false;
+    let lineUncomment  = false;
+    let result         = true;
+    const editGroup    = [];
+    let edit;
 
-    var searchCtx, atSuffix, suffixEnd, initialPos, endLine;
-
-    var indentLineComment = options.indent;
+    const indentLineComment = options.indent;
 
     function isIndentLineCommand() {
         return indentLineComment && command === "line";
@@ -416,7 +416,7 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
             // comment over the whole line, and if we found this comment at the start of the selection, we need to search
             // backwards until we get can tell if we are in a block or a line comment
             if (ctx.token.start === 0 && !ctx.token.string.match(/^\\s*/) && commentAtStart) {
-                searchCtx      = TokenUtils.getInitialContext(editor._codeMirror, {line: ctx.pos.line, ch: ctx.token.start});
+                const searchCtx  = TokenUtils.getInitialContext(editor._codeMirror, {line: ctx.pos.line, ch: ctx.token.start});
                 isBlockComment = _isPrevTokenABlockComment(searchCtx, prefix, suffix, prefixExp, suffixExp, lineExp);
 
             // If not, we already know that is a line comment
@@ -433,8 +433,8 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
             // This means that the token will be anywere inside the block comment, including the lines with the delimiters.
             // This is required so that later we can find the prefix by moving backwards and the suffix by moving forwards.
             if (ctx.token.string === prefix && prefix === suffix) {
-                searchCtx = TokenUtils.getInitialContext(editor._codeMirror, {line: ctx.pos.line, ch: ctx.token.start});
-                atSuffix  = _isPrevTokenABlockComment(searchCtx, prefix, suffix, prefixExp, suffixExp, lineExp);
+                const searchCtx = TokenUtils.getInitialContext(editor._codeMirror, {line: ctx.pos.line, ch: ctx.token.start});
+                const atSuffix  = _isPrevTokenABlockComment(searchCtx, prefix, suffix, prefixExp, suffixExp, lineExp);
                 if (atSuffix) {
                     TokenUtils.moveSkippingWhitespace(TokenUtils.movePrevToken, ctx);
                 } else {
@@ -445,7 +445,7 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
 
         if (isBlockComment) {
             // Save the initial position to start searching for the suffix from here
-            initialPos = _.cloneDeep(ctx.pos);
+            const initialPos = _.cloneDeep(ctx.pos);
 
             // Find the position of the start of the prefix
             result = true;
@@ -474,14 +474,14 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
 
             // Make sure we didn't search so far backward or forward that we actually found a block comment
             // that's entirely before or after the selection.
-            suffixEnd = suffixPos && { line: suffixPos.line, ch: suffixPos.ch + suffix.length };
+            const suffixEnd = suffixPos && { line: suffixPos.line, ch: suffixPos.ch + suffix.length };
             if ((suffixEnd && CodeMirror.cmpPos(sel.start, suffixEnd) > 0) || (prefixPos && CodeMirror.cmpPos(sel.end, prefixPos) < 0)) {
                 canComment = true;
             }
 
         } else {
             // In full-line selection, cursor pos is at the start of next line - but don't want to modify that line
-            endLine = sel.end.line;
+            let endLine = sel.end.line;
             if (sel.end.ch === 0 && editor.hasSelection()) {
                 endLine--;
             }
@@ -513,20 +513,20 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
     } else {
         // Comment out - add the suffix to the start and the prefix to the end.
         if (canComment) {
-            var completeLineSel = sel.start.ch === 0 && sel.end.ch === 0 && sel.start.line < sel.end.line;
-            var startCh = _firstNotWs(editor._codeMirror.getLine(sel.start.line));
+            const completeLineSel = sel.start.ch === 0 && sel.end.ch === 0 && sel.start.line < sel.end.line;
+            const startCh = _firstNotWs(editor._codeMirror.getLine(sel.start.line));
             if (completeLineSel) {
                 if (isIndentLineCommand()) {
-                    var endCh = _firstNotWs(editor._codeMirror.getLine(sel.end.line - 1));
-                    var useTabChar = editor._codeMirror.getOption("indentWithTabs");
-                    var indentChar = useTabChar ? "\t" : " ";
+                    const endCh = _firstNotWs(editor._codeMirror.getLine(sel.end.line - 1));
+                    const useTabChar = editor._codeMirror.getOption("indentWithTabs");
+                    const indentChar = useTabChar ? "\t" : " ";
                     editGroup.push({
                         text: _.repeat(indentChar, endCh) + suffix + "\n",
-                        start: {line: sel.end.line, ch: 0}
+                        start: {line: sel.end.line, ch: 0},
                     });
                     editGroup.push({
                         text: prefix + "\n" + _.repeat(indentChar, startCh),
-                        start: {line: sel.start.line, ch: startCh}
+                        start: {line: sel.start.line, ch: startCh},
                     });
                 } else {
                     editGroup.push({text: suffix + "\n", start: sel.end});
@@ -577,11 +577,11 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
         } else {
             // Find if the prefix and suffix are at the ch 0 and if they are the only thing in the line.
             // If both are found we assume that a complete line selection comment added new lines, so we remove them.
-            var line          = editor._codeMirror.getLine(prefixPos.line).trim(),
-                prefixAtStart = prefixPos.ch === 0 && prefix.length === line.length,
-                prefixIndented = indentLineComment && prefix.length === line.length,
-                suffixAtStart = false,
-                suffixIndented = false;
+            let line          = editor._codeMirror.getLine(prefixPos.line).trim();
+            const prefixAtStart = prefixPos.ch === 0 && prefix.length === line.length;
+            const prefixIndented = indentLineComment && prefix.length === line.length;
+            let suffixAtStart = false;
+            let suffixIndented = false;
 
             if (suffixPos) {
                 line = editor._codeMirror.getLine(suffixPos.line).trim();
@@ -646,7 +646,7 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
  *      An edit description suitable for including in the edits array passed to `Document.doMultipleEdits()`.
  */
 function _getLineCommentPrefixSuffixEdit(editor: Editor, prefix, suffix, lineSel, command, options: CommentOptions) {
-    var sel = lineSel.selectionForEdit;
+    const sel = lineSel.selectionForEdit;
 
     // For one-line selections, we shrink the selection to exclude the trailing newline.
     if (sel.end.line === sel.start.line + 1 && sel.end.ch === 0) {
@@ -666,7 +666,7 @@ function _getLineCommentPrefixes(prefixes: string | string[], defaultValue: [] |
     if (Array.isArray(prefixes)) {
         return prefixes.length > 0 ? prefixes : defaultValue;
     }
-    
+
     return [prefixes];
 }
 
@@ -686,12 +686,12 @@ function _getLineCommentPrefixes(prefixes: string | string[], defaultValue: [] |
 function _getLineCommentEdits(editor: Editor, selections, command, options: CommentOptions) {
     // We need to expand line selections in order to coalesce cursors on the same line, but we
     // don't want to merge adjacent line selections.
-    var lineSelections = editor.convertToLineSelections(selections, { mergeAdjacent: false }),
-        edits = [];
+    const lineSelections = editor.convertToLineSelections(selections, { mergeAdjacent: false });
+    const edits = [];
     _.each(lineSelections, function (lineSel) {
-        var sel = lineSel.selectionForEdit,
-            mode = editor.getModeForRange(sel.start, sel.end),
-            edit;
+        const sel = lineSel.selectionForEdit;
+        const mode = editor.getModeForRange(sel.start, sel.end);
+        let edit;
         if (mode) {
             const cmMode: CommentDelimiters = options.getMode
                 ? options.getMode(mode, sel.start)
@@ -728,11 +728,11 @@ export function lineComment(editor: Editor, options: CommentOptions) {
  * @param {?Editor} editor If unspecified, applies to the currently focused editor
  */
 export function blockComment(editor: Editor, options: CommentOptions) {
-    var edits = [],
-        lineCommentSels = [];
+    const edits = [];
+    const lineCommentSels = [];
     _.each(editor.getSelections(), function (sel) {
-        var mode = editor.getModeForRange(sel.start, sel.end),
-            edit = {edit: [], selection: [sel]}; // default edit in case we don't have a mode for this selection
+        const mode = editor.getModeForRange(sel.start, sel.end);
+        let edit = {edit: [], selection: [sel]}; // default edit in case we don't have a mode for this selection
         if (mode) {
             const cmMode: CommentDelimiters = options.getMode
                 ? options.getMode(mode, sel.start)

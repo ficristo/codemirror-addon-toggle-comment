@@ -21,7 +21,7 @@ export default [
                 format: "umd",
                 sourcemap: true,
                 globals: {
-                    codemirror: "CodeMirror"
+                    codemirror: "CodeMirror",
                 },
             },
             {
@@ -29,7 +29,7 @@ export default [
                 format: "esm",
                 sourcemap: true,
                 globals: {
-                    codemirror: "CodeMirror"
+                    codemirror: "CodeMirror",
                 },
             },
         ],
@@ -55,7 +55,7 @@ export default [
             resolve(),
 
             // Resolve source maps to the original source
-            sourceMaps()
+            sourceMaps(),
         ],
     },
     {
@@ -67,7 +67,7 @@ export default [
                 format: "umd",
                 sourcemap: false,
                 globals: {
-                    codemirror: "CodeMirror"
+                    codemirror: "CodeMirror",
                 },
             },
         ],
@@ -93,11 +93,11 @@ export default [
 
             // Resolve source maps to the original source
             sourceMaps(),
-            
+
             terser({
                 output: {
-                    comments: "all"
-                }
+                    comments: "all",
+                },
             }),
         ],
     },
@@ -135,7 +135,7 @@ export default [
             resolve(),
 
             // Resolve source maps to the original source
-            sourceMaps()
+            sourceMaps(),
         ],
     },
     {
@@ -172,11 +172,11 @@ export default [
 
             // Resolve source maps to the original source
             sourceMaps(),
-            
+
             terser({
                 output: {
-                    comments: "all"
-                }
+                    comments: "all",
+                },
             }),
         ],
     },

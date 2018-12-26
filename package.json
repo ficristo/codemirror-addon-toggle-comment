@@ -1,6 +1,6 @@
 {
   "name": "codemirror-addon-toggle-comment",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "CodeMirror addon: another way to indent your code",
   "main": "./dist/toggle-comment.js",
   "mainSimple": "./dist/toggle-comment-simple.js",

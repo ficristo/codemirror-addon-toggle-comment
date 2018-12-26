@@ -215,15 +215,22 @@ function _getLineCommentPrefixEdit(editor: Editor, prefixes: Array<string>, bloc
         if (options.indent) {
             for (let i = startLine; i <= endLine; i++) {
                 const line = editor._codeMirror.getLine(i);
-                const whitespace = line.slice(0, _firstNotWs(line));
-                if (baseString === null || (whitespace.length > 0 && baseString.length > whitespace.length)) {
+                const firstCharPosition = _firstNotWs(line);
+                if (line.length === 0 || firstCharPosition === -1) {
+                    continue;
+                }
+
+                const whitespace = line.slice(0, firstCharPosition);
+                if (baseString === null || baseString.length > whitespace.length) {
                     baseString = whitespace;
                 }
             }
 
+            baseString = baseString === null ? "" : baseString;
+
             for (let i = startLine; i <= endLine; i++) {
                 const line = editor._codeMirror.getLine(i);
-                const firstCharPosition = line.search(nonWS);
+                const firstCharPosition = _firstNotWs(line);
                 let text;
                 if (firstCharPosition === -1) {
                     if (line.length === 0) {
@@ -337,8 +344,7 @@ function _firstNotWs(text: string) {
         return 0;
     }
 
-    const found = text.search(/\S|$/);
-    return found === -1 ? 0 : found;
+    return text.search(nonWS);
 }
 
 /**

@@ -317,6 +317,86 @@ describe("EditorCommandHandlers", function () {
             testToggleLine(defaultContent, {start: Pos(2, 0), end: Pos(4, 8)});
         });
 
+        it("should comment/uncomment when selection starts on empty lines", function () {
+            const startingContent = [
+                "function foo() {",
+                "    function bar() {",
+                "",
+                "        a();",
+                "",
+                "    }",
+                "",
+                "}",
+            ].join("\n");
+            myEditor.setText(startingContent);
+            myEditor.setSelection(Pos(2, 0), Pos(4, 0));
+
+            let expectedText = [
+                "function foo() {",
+                "    function bar() {",
+                "        //",
+                "        //a();",
+                "",
+                "    }",
+                "",
+                "}",
+            ].join("\n");
+
+            testToggleLine(expectedText, {start: Pos(2, 0), end: Pos(4, 0)});
+
+            expectedText = [
+                "function foo() {",
+                "    function bar() {",
+                "        ",
+                "        a();",
+                "",
+                "    }",
+                "",
+                "}",
+            ].join("\n");
+            testToggleLine(expectedText, {start: Pos(2, 0), end: Pos(4, 0)});
+        });
+
+        it("should comment/uncomment when selection ends on empty lines", function () {
+            const startingContent = [
+                "function foo() {",
+                "    function bar() {",
+                "",
+                "        a();",
+                "",
+                "    }",
+                "",
+                "}",
+            ].join("\n");
+            myEditor.setText(startingContent);
+            myEditor.setSelection(Pos(3, 0), Pos(5, 0));
+
+            let expectedText = [
+                "function foo() {",
+                "    function bar() {",
+                "",
+                "        //a();",
+                "        //",
+                "    }",
+                "",
+                "}",
+            ].join("\n");
+
+            testToggleLine(expectedText, {start: Pos(3, 0), end: Pos(5, 0)});
+
+            expectedText = [
+                "function foo() {",
+                "    function bar() {",
+                "",
+                "        a();",
+                "        ",
+                "    }",
+                "",
+                "}",
+            ].join("\n");
+            testToggleLine(expectedText, {start: Pos(3, 0), end: Pos(5, 0)});
+        });
+
         it("should do nothing on whitespace line", function () {
             myEditor.setCursorPos(2, 8);
 
@@ -382,8 +462,8 @@ describe("EditorCommandHandlers", function () {
 
             const expectedText = [
                 "function foo() {",
-                "    //function bar() {",
-                "    //    ",
+                "//    function bar() {",
+                "//        ",
                 "////        a();",
                 "        ",
                 "    }",
@@ -1561,14 +1641,14 @@ describe("EditorCommandHandlers", function () {
             myEditor.setSelection(Pos(1, 0), Pos(4, 0));
 
             // FIXME
-            // testToggleLine(expectedContent, {start: Pos(1, 0), end: Pos(4, 0)});
+            // testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(4, 0)});
 
             // FIXME
             // TODO: verify if the empty line should be commented
             // lines = defaultContent.split("\n");
             // lines[2] = "//        ";
-            // var expectedContent = lines.join("\n");
-            // testToggleLine(expectedContent, {start: Pos(1, 0), end: Pos(4, 0)});
+            // expectedText = lines.join("\n");
+            // testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(4, 0)});
         });
     });
 

@@ -1,3 +1,7 @@
+## v0.3.0 (2018-12-29)
+
+Add padding option.
+
 ## v0.2.0 (2018-12-26)
 
 Change behaviour for indented line comments.

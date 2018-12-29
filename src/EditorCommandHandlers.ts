@@ -36,6 +36,7 @@ interface CommentDelimiters {
 
 export interface CommentOptions {
     indent?: boolean;
+    padding?: string;
     lineComment?: string | string[]
     blockCommentStart?: string;
     blockCommentEnd?: string;
@@ -207,9 +208,10 @@ function _getLineCommentPrefixEdit(editor: Editor, prefixes: Array<string>, bloc
     // Are there any non-blank lines that aren't commented out? (We ignore blank lines because
     // some editors like Sublime don't comment them out)
     const containsNotLineComment = _containsNotLineComment(editor, startLine, endLine, lineExp);
+    const padding = options.padding ? options.padding : "";
 
     if (containsNotLineComment) {
-        const commentString = prefixes[0];
+        const commentString = prefixes[0] + padding;
         let baseString = null;
 
         if (options.indent) {
@@ -278,7 +280,11 @@ function _getLineCommentPrefixEdit(editor: Editor, prefixes: Array<string>, bloc
 
             if (prefix) {
                 const commentI = line.indexOf(prefix);
-                editGroup.push({text: "", start: {line: i, ch: commentI}, end: {line: i, ch: commentI + prefix.length}});
+                let endPos = commentI + prefix.length;
+                if (line.slice(endPos, endPos + padding.length) === padding) {
+                    endPos += padding.length;
+                }
+                editGroup.push({text: "", start: {line: i, ch: commentI}, end: {line: i, ch: endPos}});
             }
         }
         _.each(trackedSels, function (trackedSel) {
@@ -517,6 +523,8 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
         edit = null;
 
     } else {
+        const padding = options.padding ? options.padding : "";
+
         // Comment out - add the suffix to the start and the prefix to the end.
         if (canComment) {
             const completeLineSel = sel.start.ch === 0 && sel.end.ch === 0 && sel.start.line < sel.end.line;
@@ -539,11 +547,11 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
                     editGroup.push({text: prefix + "\n", start: sel.start});
                 }
             } else {
-                editGroup.push({text: suffix, start: sel.end});
+                editGroup.push({text: padding + suffix, start: sel.end});
                 if (isIndentLineCommand()) {
-                    editGroup.push({text: prefix, start: { line: sel.start.line, ch: startCh }});
+                    editGroup.push({text: prefix + padding, start: { line: sel.start.line, ch: startCh }});
                 } else {
-                    editGroup.push({text: prefix, start: sel.start});
+                    editGroup.push({text: prefix + padding, start: sel.start});
                 }
             }
 
@@ -559,9 +567,10 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
                         if (completeLineSel) {
                             pos.line++;
                         } else if (pos.line === sel.end.line) {
-                            pos.ch += suffix.length;
+                            pos.ch += suffix.length + padding.length * 2;
                         }
                     }
+
                     // Now adjust for the prefix insertion. In this case, we do
                     // want to adjust positions that are exactly at the insertion
                     // point.
@@ -570,7 +579,7 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
                             // Just move the line down.
                             pos.line++;
                         } else if (pos.line === sel.start.line && !(isIndentLineCommand() && pos.ch < startCh)) {
-                            pos.ch += prefix.length;
+                            pos.ch += prefix.length + padding.length;
                         }
                     }
                 }
@@ -583,16 +592,19 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
         } else {
             // Find if the prefix and suffix are at the ch 0 and if they are the only thing in the line.
             // If both are found we assume that a complete line selection comment added new lines, so we remove them.
-            let line          = editor._codeMirror.getLine(prefixPos.line).trim();
-            const prefixAtStart = prefixPos.ch === 0 && prefix.length === line.length;
-            const prefixIndented = indentLineComment && prefix.length === line.length;
+            const startLine = editor._codeMirror.getLine(prefixPos.line);
+            const startLineTrimmed = startLine.trim();
+            const prefixAtStart = prefixPos.ch === 0 && prefix.length === startLineTrimmed.length;
+            const prefixIndented = indentLineComment && prefix.length === startLineTrimmed.length;
+            let endLine = "";
             let suffixAtStart = false;
             let suffixIndented = false;
 
             if (suffixPos) {
-                line = editor._codeMirror.getLine(suffixPos.line).trim();
-                suffixAtStart = suffixPos.ch === 0 && suffix.length === line.length;
-                suffixIndented = indentLineComment && suffix.length === line.length;
+                endLine = editor._codeMirror.getLine(suffixPos.line);
+                const endLineTrimmed = endLine.trim();
+                suffixAtStart = suffixPos.ch === 0 && suffix.length === endLineTrimmed.length;
+                suffixIndented = indentLineComment && suffix.length === endLineTrimmed.length;
             }
 
             // Remove the suffix if there is one
@@ -602,7 +614,12 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
                 } else if (prefixAtStart && suffixAtStart) {
                     editGroup.push({text: "", start: suffixPos, end: {line: suffixPos.line + 1, ch: 0}});
                 } else {
-                    editGroup.push({text: "", start: suffixPos, end: {line: suffixPos.line, ch: suffixPos.ch + suffix.length}});
+                    const paddingLength = (padding && endLine.slice(suffixPos.ch - padding.length, suffixPos.ch) === padding) ? padding.length : 0;
+                    editGroup.push({
+                        text: "",
+                        start: { line: suffixPos.line, ch: suffixPos.ch - paddingLength },
+                        end: {line: suffixPos.line, ch: suffixPos.ch + suffix.length},
+                    });
                 }
             }
 
@@ -612,7 +629,11 @@ function _getBlockCommentPrefixSuffixEdit(editor: Editor, prefix: string, suffix
             } else if (prefixAtStart && suffixAtStart) {
                 editGroup.push({text: "", start: prefixPos, end: {line: prefixPos.line + 1, ch: 0}});
             } else {
-                editGroup.push({text: "", start: prefixPos, end: {line: prefixPos.line, ch: prefixPos.ch + prefix.length}});
+                let openEnd = prefixPos.ch + prefix.length;
+                if (padding && startLine.slice(openEnd, openEnd + padding.length) === padding) {
+                    openEnd += padding.length;
+                }
+                editGroup.push({text: "", start: prefixPos, end: {line: prefixPos.line, ch: openEnd}});
             }
 
             // Don't fix up the tracked selections here - let the edit fix them up.

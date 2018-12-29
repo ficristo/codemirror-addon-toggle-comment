@@ -1307,6 +1307,132 @@ describe("EditorCommandHandlers", function () {
         });
     });
 
+    describe("Line comment/uncomment with `padding` option enabled", function () {
+        beforeEach(function () {
+            setupFullEditor();
+            options = { indent: false, padding: " " };
+        });
+
+        afterEach(function () {
+            options = noOptions;
+        });
+
+        it("should comment/uncomment a single line, cursor at start", function () {
+            myEditor.setCursorPos(3, 0);
+
+            const expectedText = [
+                "function foo() {",
+                "    function bar() {",
+                "        ",
+                "//         a();",
+                "        ",
+                "    }",
+                "",
+                "}",
+            ].join("\n");
+
+            testToggleLine(expectedText, Pos(3, 3));
+            testToggleLine(defaultContent, Pos(3, 0));
+        });
+
+        it("should comment/uncomment first line in file", function () {
+            myEditor.setCursorPos(0, 0);
+
+            const expectedText = [
+                "// function foo() {",
+                "    function bar() {",
+                "        ",
+                "        a();",
+                "        ",
+                "    }",
+                "",
+                "}",
+            ].join("\n");
+
+            testToggleLine(expectedText, Pos(0, 3));
+            testToggleLine(defaultContent, Pos(0, 0));
+        });
+
+        it("should comment/uncomment first line in file", function () {
+            myEditor.setCursorPos(0, 0);
+
+            const expectedText = [
+                "// function foo() {",
+                "    function bar() {",
+                "        ",
+                "        a();",
+                "        ",
+                "    }",
+                "",
+                "}",
+            ].join("\n");
+
+            testToggleLine(expectedText, Pos(0, 3));
+            testToggleLine(defaultContent, Pos(0, 0));
+        });
+
+        it("should uncomment/comment after select all", function () {
+            const startingContent = [
+                "// function foo() {",
+                "//     function bar() {",
+                "//         ",
+                "//         a();",
+                "//         ",
+                "//     }",
+                "// ",
+                "// }",
+            ].join("\n");
+            myEditor.setText(startingContent);
+
+            myEditor.setSelection(Pos(0, 0), Pos(7, 4));
+
+            testToggleLine(defaultContent, {start: Pos(0, 0), end: Pos(7, 1)});
+            testToggleLine(startingContent, {start: Pos(0, 0), end: Pos(7, 4)});
+        });
+
+
+        it("should uncomment/comment after select all but no padding", function () {
+            const startingContent = [
+                "//function foo() {",
+                "//    function bar() {",
+                "//        ",
+                "//        a();",
+                "//        ",
+                "//    }",
+                "//",
+                "//}",
+            ].join("\n") + "\n";
+            myEditor.setText(startingContent);
+
+            myEditor.setSelection(Pos(0, 0), Pos(8, 0));
+
+            let expectedText = [
+                "function foo() {",
+                "   function bar() {",
+                "       ",
+                "       a();",
+                "       ",
+                "   }",
+                "",
+                "}",
+            ].join("\n") + "\n";
+
+            testToggleLine(expectedText, {start: Pos(0, 0), end: Pos(8, 0)});
+
+            expectedText = [
+                "// function foo() {",
+                "//    function bar() {",
+                "//        ",
+                "//        a();",
+                "//        ",
+                "//    }",
+                "// ",
+                "// }",
+            ].join("\n") + "\n";
+            testToggleLine(expectedText, {start: Pos(0, 0), end: Pos(8, 0)});
+        });
+    });
+
     describe("Line comment/uncomment in languages with only block comments and with `indent` option enabled", function () {
         const htmlContent = [
             "<html>",
@@ -2401,6 +2527,139 @@ describe("EditorCommandHandlers", function () {
             });
         });
     });
+
+    describe("Block comment/uncomment with `padding` option enabled", function () {
+        beforeEach(function () {
+            setupFullEditor();
+            options = { padding: " " };
+        });
+
+        afterEach(function () {
+            options = noOptions;
+        });
+
+        it("should block comment with whitespaces", function () {
+            const startingContent = [
+                "function foo()",
+                "    ",
+                "    a();",
+                "    ",
+                "    b();",
+                "    ",
+                "}",
+            ].join("\n");
+            myEditor.setText(startingContent);
+            myEditor.setCursorPos(2, 4);
+
+            const expectedText = [
+                "function foo()",
+                "    ",
+                "    /*  */a();",
+                "    ",
+                "    b();",
+                "    ",
+                "}",
+            ].join("\n");
+            testToggleBlock(expectedText, Pos(2, 7));
+
+            testToggleBlock(startingContent, Pos(2, 4));
+        });
+
+        it("should block comment, selection will covers block comment plus whitespaces", function () {
+            const startingContent = [
+                "function foo()",
+                "    ",
+                "    a();",
+                "    ",
+                "    b();",
+                "    ",
+                "}",
+            ].join("\n");
+            myEditor.setText(startingContent);
+            myEditor.setSelection(Pos(2, 4), Pos(4, 8));
+
+            const expectedText = [
+                "function foo()",
+                "    ",
+                "    /* a();",
+                "    ",
+                "    b(); */",
+                "    ",
+                "}",
+            ].join("\n");
+            testToggleBlock(expectedText, {start: Pos(2, 7), end: Pos(4, 8)});
+
+            testToggleBlock(startingContent, {start: Pos(2, 4), end: Pos(4, 8)});
+        });
+
+        const WS_SURROUNDING_BLOCK = [
+            "function foo()",
+            "    ",
+            "    /*a();",
+            "    ",
+            "    b();*/",
+            "    ",
+            "}",
+        ].join("\n");
+
+        it("should block uncomment, selection will covers block comment plus whitespaces", function () {
+            myEditor.setText(WS_SURROUNDING_BLOCK);
+            myEditor.setSelection(Pos(2, 6), Pos(4, 8));
+
+            let expectedText = [
+                "function foo()",
+                "    ",
+                "    a();",
+                "    ",
+                "    b();",
+                "    ",
+                "}",
+            ].join("\n");
+            testToggleBlock(expectedText, {start: Pos(2, 4), end: Pos(4, 8)});
+
+            expectedText = [
+                "function foo()",
+                "    ",
+                "    /* a();",
+                "    ",
+                "    b(); */",
+                "    ",
+                "}",
+            ].join("\n");
+            testToggleBlock(expectedText, {start: Pos(2, 7), end: Pos(4, 8)});
+        });
+    });
+
+    describe("Block comment/uncomment with `indent` and `padding` options enabled", function () {
+        beforeEach(function () {
+            setupFullEditor("", "htmlmixed");
+            options = { indent: true, padding: " " };
+        });
+
+        afterEach(function () {
+            options = noOptions;
+        });
+
+        it("should block uncomment, selection will covers block comment plus whitespaces", function () {
+            const startingContent = [
+                "<html>",
+                "    <body></body>",
+                "</html>",
+            ].join("\n");
+            myEditor.setText(startingContent);
+            myEditor.setSelection(Pos(1, 4), Pos(1, 17));
+
+            const expectedText = [
+                "<html>",
+                "    <!-- <body></body> -->",
+                "</html>",
+            ].join("\n");
+            testToggleBlock(expectedText, {start: Pos(1, 9), end: Pos(1, 22)});
+
+            testToggleBlock(startingContent, {start: Pos(1, 4), end: Pos(1, 17)});
+        });
+    });
+
 
     // If the cursor's/selection's lines contain nothing but line comments and whitespace, we assume the user
     // meant line-uncomment (i.e. delegate to Toggle Line Comment). In all other cases, we ignore the line comment

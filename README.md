@@ -18,19 +18,23 @@ It defines two extensions: `cm.lineComment(options?)` and `cm.blockComment(optio
 
 ### Options
 
-`indent?: boolean;`
+`indent?: boolean`
 
 If false the comment will start at the start of the line, otherwise will try to match the indentation of the selected code.
+
+`padding?: string`
+
+A string that will be inserted after opening and before closing comment marker.
 
 `lineComment?: string | string[]`
 
 The strings used for commenting the code in case of line comment.
 
-`blockCommentStart?: string;`
+`blockCommentStart?: string`
 
 The string used for commenting the code at the start of a block comment.
 
-`blockCommentEnd?: string;`
+`blockCommentEnd?: string`
 
 The string used for commenting the code at the end of a block comment.
 

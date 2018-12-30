@@ -1,3 +1,7 @@
+## v0.4.0 (2018-12-30)
+
+**Breaking:** renamed `lineComment` and `blockComment` to `toggleLineComment` and `toggleBlockComment`.
+
 ## v0.3.0 (2018-12-29)
 
 Add padding option.

@@ -110,7 +110,7 @@ describe("EditorCommandHandlers", function () {
      * @param {!string} type Either "block" or "line".
      */
     function testToggleComment(expectedCommentedText: string, expectedCommentedSel: CodeMirror.Position | CodeMirror.Selection | CodeMirror.Selections, expectedSelText, type: string) {
-        const command = (type === "block" ? "blockComment" : "lineComment");
+        const command = (type === "block" ? "toggleBlockComment" : "toggleLineComment");
 
         function expectSel(sel) {
             if (Array.isArray(sel)) {

@@ -746,7 +746,7 @@ function _getLineCommentEdits(editor: Editor, selections, command, options: Comm
  * Invokes a language-specific line-comment/uncomment handler
  * @param {?Editor} editor If unspecified, applies to the currently focused editor
  */
-export function lineComment(editor: Editor, options: CommentOptions) {
+export function toggleLineComment(editor: Editor, options: CommentOptions) {
     editor.setSelections(Document.doMultipleEdits(editor, _getLineCommentEdits(editor, editor.getSelections(), "line", options)));
 }
 
@@ -754,7 +754,7 @@ export function lineComment(editor: Editor, options: CommentOptions) {
  * Invokes a language-specific block-comment/uncomment handler
  * @param {?Editor} editor If unspecified, applies to the currently focused editor
  */
-export function blockComment(editor: Editor, options: CommentOptions) {
+export function toggleBlockComment(editor: Editor, options: CommentOptions) {
     const edits = [];
     const lineCommentSels = [];
     _.each(editor.getSelections(), function (sel) {

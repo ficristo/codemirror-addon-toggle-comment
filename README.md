@@ -14,7 +14,7 @@ npm install codeMirror-addon-toggle-comment
 
 ## How to use
 
-It defines two extensions: `cm.lineComment(options?)` and `cm.blockComment(options?)`.
+It defines two extensions: `cm.toggleLineComment(options?)` and `cm.toggleBlockComment(options?)`.
 
 ### Options
 
@@ -46,8 +46,9 @@ When this options is used the `lineComment`, `blockCommentStart` and `blockComme
 ### Example:
 
 ```js
-codeMirror.lineComment({
-    indent: true
+codeMirror.toggleLineComment({
+    indent: true,
+    padding: " "
 });
 ```
 

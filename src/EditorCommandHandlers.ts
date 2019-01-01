@@ -37,6 +37,7 @@ interface CommentDelimiters {
 export interface CommentOptions {
     indent?: boolean;
     padding?: string;
+    commentBlankLines?: boolean;
     lineComment?: string | string[]
     blockCommentStart?: string;
     blockCommentEnd?: string;
@@ -209,6 +210,7 @@ function _getLineCommentPrefixEdit(editor: Editor, prefixes: Array<string>, bloc
     // some editors like Sublime don't comment them out)
     const containsNotLineComment = _containsNotLineComment(editor, startLine, endLine, lineExp);
     const padding = options.padding ? options.padding : "";
+    const commentBlankLines = options.commentBlankLines;
 
     if (containsNotLineComment) {
         const commentString = prefixes[0] + padding;
@@ -233,6 +235,10 @@ function _getLineCommentPrefixEdit(editor: Editor, prefixes: Array<string>, bloc
             for (let i = startLine; i <= endLine; i++) {
                 const line = editor._codeMirror.getLine(i);
                 const firstCharPosition = _firstNotWs(line);
+                if (!commentBlankLines && firstCharPosition === -1) {
+                    continue;
+                }
+
                 let text;
                 if (firstCharPosition === -1) {
                     if (line.length === 0) {
@@ -259,7 +265,9 @@ function _getLineCommentPrefixEdit(editor: Editor, prefixes: Array<string>, bloc
             }
         } else {
             for (let i = startLine; i <= endLine; i++) {
-                editGroup.push({text: commentString, start: {line: i, ch: 0}});
+                if (commentBlankLines || nonWS.test(editor._codeMirror.getLine(i))) {
+                    editGroup.push({text: commentString, start: {line: i, ch: 0}});
+                }
             }
         }
 

@@ -143,7 +143,7 @@ describe("EditorCommandHandlers", function () {
 
         beforeEach(function () {
             setupFullEditor();
-            options = { indent: true };
+            options = { indent: true, commentBlankLines: true };
         });
 
         afterEach(function () {
@@ -845,9 +845,11 @@ describe("EditorCommandHandlers", function () {
     describe("Line comment/uncomment with `indent` option disabled", function () {
         beforeEach(function () {
             setupFullEditor();
+            options = { indent: false, commentBlankLines: true };
         });
 
         afterEach(function () {
+            options = noOptions;
         });
 
         it("should comment/uncomment a single line, cursor at start", function () {
@@ -1310,7 +1312,7 @@ describe("EditorCommandHandlers", function () {
     describe("Line comment/uncomment with `padding` option enabled", function () {
         beforeEach(function () {
             setupFullEditor();
-            options = { indent: false, padding: " " };
+            options = { indent: false, padding: " ", commentBlankLines: true };
         });
 
         afterEach(function () {
@@ -1433,6 +1435,71 @@ describe("EditorCommandHandlers", function () {
         });
     });
 
+    describe("Line comment/uncomment with `commentBlankLines` option disabled", function () {
+        beforeEach(function () {
+            setupFullEditor();
+            options = { commentBlankLines: false };
+        });
+
+        afterEach(function () {
+            options = noOptions;
+        });
+
+        describe("and `indent` option disabled", function () {
+            beforeEach(function () {
+                options.indent = false;
+            });
+
+            it("should do nothing, when only an empty line is selected", function () {
+                myEditor.setCursorPos(2, 0);
+
+                testToggleLine(defaultContent, Pos(2, 0));
+            });
+
+            it("should comment/uncomment after select all", function () {
+                myEditor.setSelection(Pos(0, 0), Pos(7, 1));
+
+                const expectedText = [
+                    "//function foo() {",
+                    "//    function bar() {",
+                    "        ",
+                    "//        a();",
+                    "        ",
+                    "//    }",
+                    "",
+                    "//}",
+                ].join("\n");
+
+                testToggleLine(expectedText, {start: Pos(0, 0), end: Pos(7, 3)});
+                testToggleLine(defaultContent, {start: Pos(0, 0), end: Pos(7, 1)});
+            });
+        });
+
+        describe("and `indent` option enabled", function () {
+            beforeEach(function () {
+                options.indent = true;
+            });
+
+            it("should comment/uncomment after select all", function () {
+                myEditor.setSelection(Pos(1, 0), Pos(7, 0));
+
+                const expectedText = [
+                    "function foo() {",
+                    "    //function bar() {",
+                    "        ",
+                    "    //    a();",
+                    "        ",
+                    "    //}",
+                    "",
+                    "}",
+                ].join("\n");
+
+                testToggleLine(expectedText, {start: Pos(1, 0), end: Pos(7, 0)});
+                testToggleLine(defaultContent, {start: Pos(1, 0), end: Pos(7, 0)});
+            });
+        });
+    });
+
     describe("Line comment/uncomment in languages with only block comments and with `indent` option enabled", function () {
         const htmlContent = [
             "<html>",
@@ -1444,7 +1511,7 @@ describe("EditorCommandHandlers", function () {
 
         beforeEach(function () {
             setupFullEditor(htmlContent, "htmlmixed");
-            options = { indent: true };
+            options = { indent: true, commentBlankLines: true };
         });
 
         afterEach(function () {
@@ -1528,13 +1595,13 @@ describe("EditorCommandHandlers", function () {
 
         beforeEach(function () {
             setupFullEditor(htmlContent, "htmlmixed");
-            options = { indent: true};
+            options = { indent: true, commentBlankLines: true };
             myEditor._codeMirror.setOption("indentWithTabs", true);
         });
 
         afterEach(function () {
-            options = noOptions;
             myEditor._codeMirror.setOption("indentWithTabs", false);
+            options = noOptions;
         });
 
         it("should comment/uncomment a single line, cursor at start", function () {
@@ -1615,7 +1682,7 @@ describe("EditorCommandHandlers", function () {
 
         beforeEach(function () {
             setupFullEditor(htmlContent, "htmlmixed");
-            options = { indent: true };
+            options = { indent: true, commentBlankLines: true };
         });
 
         afterEach(function () {
@@ -1685,6 +1752,11 @@ describe("EditorCommandHandlers", function () {
 
         beforeEach(function () {
             setupFullEditor(null, "javascript");
+            options = { indent: false, padding: "", commentBlankLines: true };
+        });
+
+        afterEach(function () {
+            options = noOptions;
         });
 
         it("should comment using the first prefix", function () {

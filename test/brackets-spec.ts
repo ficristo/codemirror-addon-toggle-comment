@@ -143,7 +143,7 @@ describe("EditorCommandHandlers", function () {
 
         beforeEach(function () {
             setupFullEditor();
-            options = { indent: true, commentBlankLines: true };
+            options = { indent: true, padding: "", commentBlankLines: true };
         });
 
         afterEach(function () {
@@ -845,7 +845,7 @@ describe("EditorCommandHandlers", function () {
     describe("Line comment/uncomment with `indent` option disabled", function () {
         beforeEach(function () {
             setupFullEditor();
-            options = { indent: false, commentBlankLines: true };
+            options = { indent: false, padding: "", commentBlankLines: true };
         });
 
         afterEach(function () {
@@ -1438,7 +1438,7 @@ describe("EditorCommandHandlers", function () {
     describe("Line comment/uncomment with `commentBlankLines` option disabled", function () {
         beforeEach(function () {
             setupFullEditor();
-            options = { commentBlankLines: false };
+            options = { padding: "", commentBlankLines: false };
         });
 
         afterEach(function () {
@@ -2739,6 +2739,11 @@ describe("EditorCommandHandlers", function () {
     describe("Block comment around line comments", function () {
         beforeEach(function () {
             setupFullEditor();
+            options = { padding: "" };
+        });
+
+        afterEach(function () {
+            options = noOptions;
         });
 
         // Selections including existing line comments (and possibly whitespace)
@@ -3942,9 +3947,11 @@ describe("EditorCommandHandlers", function () {
 
         beforeEach(function () {
             setupFullEditor(htmlContent, "htmlmixed");
+            options = { padding: "" };
         });
 
         afterEach(function () {
+            options = noOptions;
         });
 
         // Correct behavior for line and block comment commands
@@ -4282,7 +4289,7 @@ describe("EditorCommandHandlers", function () {
 
         beforeEach(function () {
             setupFullEditor(htmlContent, "htmlmixed");
-            options = { indent: true };
+            options = { indent: true, padding: "" };
         });
 
         afterEach(function () {
@@ -4353,7 +4360,7 @@ describe("EditorCommandHandlers", function () {
 
         describe("with multiple selections", function () {
             beforeEach(function () {
-                options = { indent: true };
+                options = { indent: true, padding: "" };
             });
 
             afterEach(function () {
@@ -4422,6 +4429,11 @@ describe("EditorCommandHandlers", function () {
 
         beforeEach(function () {
             setupFullEditor(coffeeContent, "coffeescript");
+            options = { padding: "" };
+        });
+
+        afterEach(function () {
+            options = noOptions;
         });
 
         it("should block comment/uncomment selecting part of lines", function () {

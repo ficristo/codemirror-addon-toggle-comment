@@ -209,7 +209,7 @@ function _getLineCommentPrefixEdit(editor: Editor, prefixes: Array<string>, bloc
     // Are there any non-blank lines that aren't commented out? (We ignore blank lines because
     // some editors like Sublime don't comment them out)
     const containsNotLineComment = _containsNotLineComment(editor, startLine, endLine, lineExp);
-    const padding = options.padding ? options.padding : "";
+    const padding = options.padding !== null && options.padding !== undefined ? options.padding : " ";
     const commentBlankLines = options.commentBlankLines;
 
     if (containsNotLineComment) {

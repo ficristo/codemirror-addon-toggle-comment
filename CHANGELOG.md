@@ -1,3 +1,5 @@
+## v0.5.0 (2019-01-01)
+
 ## v0.4.0 (2018-12-30)
 
 **Breaking:** renamed `lineComment` and `blockComment` to `toggleLineComment` and `toggleBlockComment`.

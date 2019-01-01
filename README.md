@@ -1,8 +1,8 @@
 # CodeMirror Addon Toggle Comment
 
-[CodeMirror 5](https://codemirror.net) does come with an addon comment, but I wanted to use the same algorithm used in [Brackets](http://brackets.io/)
+[CodeMirror 5](https://codemirror.net) does come with a comment addon, but I wanted to use the same algorithm used in [Brackets](http://brackets.io/)
 
-This addon is that: I ported the code related to commenting code from Brackets and experimented a bit.
+This addon is that: I ported the code related to commenting code from Brackets and experimented a bit, integrating features of the original one.
 
 ## How to install
 
@@ -25,6 +25,10 @@ If false the comment will start at the start of the line, otherwise will try to 
 `padding?: string`
 
 A string that will be inserted after opening and before closing comment marker.
+
+`commentBlankLines?: boolean`
+
+Whether, when adding line comments, to also comment lines that contain only whitespace.
 
 `lineComment?: string | string[]`
 

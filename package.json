@@ -46,7 +46,8 @@
     "eslint": "eslint --ignore-path .gitignore **/*.{ts,js}",
     "tsc": "tsc",
     "prebuild": "rimraf dist",
-    "build": "rollup -c rollup.config.ts"
+    "build": "rollup -c rollup.config.ts",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "codemirror",

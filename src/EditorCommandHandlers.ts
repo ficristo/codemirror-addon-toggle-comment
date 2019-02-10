@@ -29,7 +29,7 @@ import { Editor } from "./Editor";
 import { TokenUtils } from "./TokenUtils";
 
 interface CommentDelimiters {
-    lineComment?: string | string[];
+    lineComment?: string | Array<string>;
     blockCommentStart?: string;
     blockCommentEnd?: string;
 }
@@ -38,7 +38,7 @@ export interface CommentOptions {
     indent?: boolean;
     padding?: string;
     commentBlankLines?: boolean;
-    lineComment?: string | string[]
+    lineComment?: string | Array<string>;
     blockCommentStart?: string;
     blockCommentEnd?: string;
 
@@ -693,7 +693,7 @@ function _getLineCommentPrefixSuffixEdit(editor: Editor, prefix, suffix, lineSel
     return _getBlockCommentPrefixSuffixEdit(editor, prefix, suffix, [], sel, lineSel.selectionsToTrack, command, options);
 }
 
-function _getLineCommentPrefixes(prefixes: string | string[], defaultValue: [] | null): string[] {
+function _getLineCommentPrefixes(prefixes: string | Array<string>, defaultValue: [] | null): Array<string> {
     if (!prefixes) {
         return defaultValue;
     }

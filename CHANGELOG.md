@@ -1,6 +1,10 @@
+## v0.6.0 (2019-02-10)
+
+Update deps.
+
 ## v0.5.0 (2019-01-01)
 
-Add commentBlankLines option.
+Add commentBlankLines option.<br />
 Change default padding option to a single space
 
 ## v0.4.0 (2018-12-30)

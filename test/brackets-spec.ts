@@ -4119,13 +4119,6 @@ describe("EditorCommandHandlers", function () {
         });
 
         describe("with multiple selections", function () {
-
-            beforeEach(function () {
-            });
-
-            afterEach(function () {
-            });
-
             it("should handle multiple selections in different regions, toggling block selection in each", function () {
                 myEditor.setSelections([
                     {start: Pos(1, 4), end: Pos(1, 10)},

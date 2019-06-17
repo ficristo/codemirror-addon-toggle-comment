@@ -14,29 +14,30 @@
     "codemirror": "^5.39.2"
   },
   "devDependencies": {
-    "@types/codemirror": "0.0.70",
-    "@types/jasmine": "^2.8.8",
-    "@types/lodash": "^4.14.120",
+    "@babel/core": "^7.4.5",
+    "@types/codemirror": "0.0.74",
+    "@types/jasmine": "^3.3.13",
+    "@types/lodash": "^4.14.134",
     "babel-core": "^6.26.3",
     "babel-plugin-lodash": "^3.3.4",
     "codemirror": "^5.39.2",
-    "eslint": "^5.13.0",
-    "eslint-config-moody-tsx": "~0.2.0",
-    "jasmine-core": "^3.2.1",
-    "karma": "^3.0.0",
+    "eslint": "^5.16.0",
+    "eslint-config-moody-tsx": "^0.6.0",
+    "jasmine-core": "^3.4.0",
+    "karma": "^4.1.0",
     "karma-chrome-launcher": "^2.2.0",
-    "karma-jasmine": "^1.1.2",
-    "karma-typescript": "^3.0.8",
+    "karma-jasmine": "^2.0.1",
+    "karma-typescript": "^4.1.0",
     "rimraf": "^2.6.3",
-    "rollup": "^0.64.1",
-    "rollup-plugin-babel": "^3.0.7",
-    "rollup-plugin-commonjs": "^9.1.5",
-    "rollup-plugin-json": "^3.0.0",
-    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup": "^1.15.6",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.0.3",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-terser": "^1.0.1",
-    "rollup-plugin-typescript2": "^0.16.1",
-    "typescript": "~3.3.3"
+    "rollup-plugin-terser": "^5.0.0",
+    "rollup-plugin-typescript2": "^0.21.1",
+    "typescript": "~3.5.2"
   },
   "scripts": {
     "test": "karma start",
@@ -57,6 +58,11 @@
     "comment"
   ],
   "author": "ficristo",
+  "homepage": "https://github.com/ficristo/codemirror-addon-toggle-comment",
+  "repository": "https://github.com/ficristo/codemirror-addon-toggle-comment",
+  "bugs": {
+    "url": "https://github.com/ficristo/codemirror-addon-toggle-comment/issues"
+  },
   "license": "MIT",
   "files": [
     "/dist"

@@ -45,7 +45,9 @@ export default [
             // Compile TypeScript files
             typescript({ useTsconfigDeclarationDir: true }),
 
-            babel(),
+            babel({
+                "extensions": [".js", ".jsx", ".es6", ".es", ".mjs", ".ts", ".tsx"],
+            }),
 
             // Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
             commonjs(),
@@ -82,7 +84,9 @@ export default [
             // Compile TypeScript files
             typescript({ useTsconfigDeclarationDir: true }),
 
-            babel(),
+            babel({
+                "extensions": [".js", ".jsx", ".es6", ".es", ".mjs", ".ts", ".tsx"],
+            }),
 
             // Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
             commonjs(),

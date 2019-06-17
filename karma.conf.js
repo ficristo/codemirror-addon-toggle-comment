@@ -2,7 +2,7 @@
 // Generated on Thu Aug 16 2018 13:54:10 GMT+0200 (ora legale Europa occidentale)
 "use strict";
 
-module.exports = function(config) {
+module.exports = function (config) {
     const configuration = {
         // base path that will be used to resolve all patterns (eg. files, exclude)
         basePath: "",

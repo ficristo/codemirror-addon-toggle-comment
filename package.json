@@ -8,36 +8,36 @@
   "minSimple": "./dist/toggle-comment-simple.min.js",
   "module": "./dist/toggle-comment.mjs",
   "dependencies": {
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.15"
   },
   "peerDependencies": {
     "codemirror": "^5.39.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@types/codemirror": "0.0.74",
-    "@types/jasmine": "^3.3.13",
-    "@types/lodash": "^4.14.134",
+    "@babel/core": "^7.5.5",
+    "@types/codemirror": "0.0.76",
+    "@types/jasmine": "^3.3.15",
+    "@types/lodash": "^4.14.136",
     "babel-core": "^6.26.3",
     "babel-plugin-lodash": "^3.3.4",
     "codemirror": "^5.39.2",
     "eslint": "^5.16.0",
-    "eslint-config-moody-tsx": "^0.6.0",
+    "eslint-config-moody-tsx": "^0.7.0",
     "jasmine-core": "^3.4.0",
-    "karma": "^4.1.0",
-    "karma-chrome-launcher": "^2.2.0",
+    "karma": "^4.2.0",
+    "karma-chrome-launcher": "^3.0.0",
     "karma-jasmine": "^2.0.1",
-    "karma-typescript": "^4.1.0",
+    "karma-typescript": "^4.1.1",
     "rimraf": "^2.6.3",
-    "rollup": "^1.15.6",
-    "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup": "^1.17.0",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.0.1",
     "rollup-plugin-json": "^4.0.0",
-    "rollup-plugin-node-resolve": "^5.0.3",
+    "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-terser": "^5.0.0",
-    "rollup-plugin-typescript2": "^0.21.1",
-    "typescript": "~3.5.2"
+    "rollup-plugin-terser": "^5.1.1",
+    "rollup-plugin-typescript2": "^0.22.0",
+    "typescript": "~3.5.3"
   },
   "scripts": {
     "test": "karma start",

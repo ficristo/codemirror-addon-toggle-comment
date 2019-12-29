@@ -4,6 +4,8 @@
 
 This addon is that: I ported the code related to commenting code from Brackets and experimented a bit, integrating features of the original one.
 
+Used in [Quadre](https://github.com/quadre-code/quadre) editor.
+
 ## How to install
 
 The addon is released on npm so just run

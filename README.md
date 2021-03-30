@@ -1,6 +1,8 @@
 # CodeMirror Addon Toggle Comment
 
-[CodeMirror 5](https://codemirror.net) does come with a comment addon, but I wanted to use the same algorithm used in [Brackets](http://brackets.io/)
+[![Build Status](https://github.com/ficristo/codemirror-addon-toggle-comment/actions/workflows/ci.yml/badge.svg)](https://github.com/ficristo/codemirror-addon-toggle-comment/actions)
+
+[CodeMirror 5](https://codemirror.net) does come with a [comment addon](https://codemirror.net/doc/manual.html#addon_comment), but I wanted to use the same algorithm used in [Brackets](http://brackets.io/)
 
 This addon is that: I ported the code related to commenting code from Brackets and experimented a bit, integrating features of the original one.
 
